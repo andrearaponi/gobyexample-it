@@ -12,7 +12,7 @@
           }
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'for';
+              window.location.href = 'ciclo-for';
           }
           
           
@@ -24,14 +24,14 @@
   </script>
   <body>
     <div class="example" id="if-else">
-      <h2><a href="./">Go by Example</a>: If/Else</h2>
+      <h2><a href="./">Go by Example</a>: If/Else <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>Branching with <code>if</code> and <code>else</code> in Go is
-straight-forward.</p>
+            <p>La ramificazione con <code>if</code> ed <code>else</code> in Go è
+semplice e diretta.</p>
 
           </td>
           <td class="code empty leading">
@@ -45,7 +45,7 @@ straight-forward.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/RKgKzCe7qcF"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/AwFl2nnZePm"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -72,7 +72,7 @@ straight-forward.</p>
         
         <tr>
           <td class="docs">
-            <p>Here&rsquo;s a basic example.</p>
+            <p>Ecco un esempio di base.</p>
 
           </td>
           <td class="code leading">
@@ -87,7 +87,7 @@ straight-forward.</p>
         
         <tr>
           <td class="docs">
-            <p>You can have an <code>if</code> statement without an else.</p>
+            <p>Puoi avere un&rsquo;istruzione <code>if</code> senza else.</p>
 
           </td>
           <td class="code leading">
@@ -100,8 +100,8 @@ straight-forward.</p>
         
         <tr>
           <td class="docs">
-            <p>Logical operators like <code>&amp;&amp;</code> and <code>||</code> are often
-useful in conditions.</p>
+            <p>Gli operatori logici come <code>&amp;&amp;</code> e <code>||</code> sono spesso
+utili nelle condizioni.</p>
 
           </td>
           <td class="code leading">
@@ -114,9 +114,9 @@ useful in conditions.</p>
         
         <tr>
           <td class="docs">
-            <p>A statement can precede conditionals; any variables
-declared in this statement are available in the current
-and all subsequent branches.</p>
+            <p>Un&rsquo;istruzione può precedere i condizionali; qualsiasi variabile
+dichiarata in questa istruzione è disponibile nel ramo corrente
+e in tutti i rami successivi.</p>
 
           </td>
           <td class="code leading">
@@ -134,8 +134,8 @@ and all subsequent branches.</p>
         
         <tr>
           <td class="docs">
-            <p>Note that you don&rsquo;t need parentheses around conditions
-in Go, but that the braces are required.</p>
+            <p>Nota che non sono necessarie le parentesi attorno alle condizioni
+in Go, ma le parentesi graffe sono obbligatorie.</p>
 
           </td>
           <td class="code empty">
@@ -164,9 +164,9 @@ in Go, but that the braces are required.</p>
         
         <tr>
           <td class="docs">
-            <p>There is no <a href="https://en.wikipedia.org/wiki/%3F:">ternary if</a>
-in Go, so you&rsquo;ll need to use a full <code>if</code> statement even
-for basic conditions.</p>
+            <p>Non esiste l&rsquo;<a href="https://en.wikipedia.org/wiki/%3F:">operatore ternario</a>
+in Go, quindi dovrai usare un&rsquo;istruzione <code>if</code> completa anche
+per le condizioni più semplici.</p>
 
           </td>
           <td class="code empty">
@@ -179,12 +179,13 @@ for basic conditions.</p>
       
       
       <p class="next">
-        Next example: <a href="switch" rel="next">Switch</a>.
+        Prossimo esempio: <a href="switch" rel="next">Switch</a>.
       </p>
       
 
     <p class="footer">
-      by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> and <a href="https://eli.thegreenplace.net">Eli Bendersky</a> | <a href="https://github.com/mmcgrana/gobyexample">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
     </p>
 
     </div>

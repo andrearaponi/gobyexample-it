@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: File e Directory Temporanei</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'directory';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'direttiva-embed';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="file-e-directory-temporanei">
+      <h2><a href="./">Go by Example</a>: File e Directory Temporanei <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Durante l&rsquo;esecuzione del programma, spesso vogliamo creare
+dati che non sono necessari dopo l&rsquo;uscita del programma.
+<em>File e directory temporanei</em> sono utili per questo
+scopo poiché non inquinano il file system nel
+tempo.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/WCAklMSCmtr"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;path/filepath&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">check</span><span class="p">(</span><span class="nx">e</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Il modo più semplice per creare un file temporaneo è
+chiamare <code>os.CreateTemp</code>. Crea un file <em>e</em>
+lo apre per lettura e scrittura. Forniamo <code>&quot;&quot;</code>
+come primo argomento, così <code>os.CreateTemp</code>
+creerà il file nella posizione predefinita per il nostro OS.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">CreateTemp</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;sample&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Mostra il nome del file temporaneo. Sui
+sistemi operativi Unix la directory sarà probabilmente <code>/tmp</code>.
+Il nome del file inizia con il prefisso dato come
+secondo argomento a <code>os.CreateTemp</code> e il resto
+viene scelto automaticamente per assicurare che chiamate
+concorrenti creino sempre nomi di file diversi.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Temp file name:&#34;</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Name</span><span class="p">())</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Puliamo il file dopo aver finito. Il sistema operativo
+probabilmente pulirà i file temporanei da solo dopo
+un po&rsquo; di tempo, ma è buona pratica farlo
+esplicitamente.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Remove</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nf">Name</span><span class="p">())</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo scrivere alcuni dati nel file.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Se intendiamo scrivere molti file temporanei, potremmo
+preferire creare una <em>directory</em> temporanea.
+Gli argomenti di <code>os.MkdirTemp</code> sono gli stessi di
+<code>CreateTemp</code>, ma restituisce un <em>nome</em> di directory
+piuttosto che un file aperto.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">dname</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">MkdirTemp</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;sampledir&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Temp dir name:&#34;</span><span class="p">,</span> <span class="nx">dname</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">os</span><span class="p">.</span><span class="nf">RemoveAll</span><span class="p">(</span><span class="nx">dname</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ora possiamo sintetizzare nomi di file temporanei
+prefissandoli con la nostra directory temporanea.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fname</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Join</span><span class="p">(</span><span class="nx">dname</span><span class="p">,</span> <span class="s">&#34;file1&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">err</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">WriteFile</span><span class="p">(</span><span class="nx">fname</span><span class="p">,</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">},</span> <span class="mo">0666</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run file-e-directory-temporanei.go
+</span></span><span class="line"><span class="cl"><span class="go">Temp file name: /tmp/sample610887201
+</span></span></span><span class="line"><span class="cl"><span class="go">Temp dir name: /tmp/sampledir898854668</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="direttiva-embed" rel="next">Direttiva Embed</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"os\"\u000A    \"path/filepath\"\u000A)\u000A');codeLines.push('func check(e error) {\u000A    if e !\u003D nil {\u000A        panic(e)\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    f, err :\u003D os.CreateTemp(\"\", \"sample\")\u000A    check(err)\u000A');codeLines.push('    fmt.Println(\"Temp file name:\", f.Name())\u000A');codeLines.push('    defer os.Remove(f.Name())\u000A');codeLines.push('    _, err \u003D f.Write([]byte{1, 2, 3, 4})\u000A    check(err)\u000A');codeLines.push('    dname, err :\u003D os.MkdirTemp(\"\", \"sampledir\")\u000A    check(err)\u000A    fmt.Println(\"Temp dir name:\", dname)\u000A');codeLines.push('    defer os.RemoveAll(dname)\u000A');codeLines.push('    fname :\u003D filepath.Join(dname, \"file1\")\u000A    err \u003D os.WriteFile(fname, []byte{1, 2}, 0666)\u000A    check(err)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

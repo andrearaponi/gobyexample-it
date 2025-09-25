@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Sincronizzazione con Canali</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'buffer-dei-canali';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'direzioni-dei-canali';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="sincronizzazione-con-canali">
+      <h2><a href="./">Go by Example</a>: Sincronizzazione con Canali <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo usare i canali per sincronizzare l&rsquo;esecuzione
+tra goroutine. Ecco un esempio di utilizzo di una
+ricezione bloccante per aspettare che una goroutine finisca.
+Quando si aspettano più goroutine per finire,
+potresti preferire usare un <a href="waitgroups">WaitGroup</a>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/MPdMbdj3rwY"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questa è la funzione che eseguiremo in una goroutine. Il
+canale <code>done</code> sarà usato per notificare a un&rsquo;altra
+goroutine che il lavoro di questa funzione è terminato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">worker</span><span class="p">(</span><span class="nx">done</span> <span class="kd">chan</span> <span class="kt">bool</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="s">&#34;working...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;done&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Invia un valore per notificare che abbiamo finito.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">done</span> <span class="o">&lt;-</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Avvia una goroutine worker, passandole il canale su cui
+notificare.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">done</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">bool</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">go</span> <span class="nf">worker</span><span class="p">(</span><span class="nx">done</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Blocca finché riceviamo una notifica dal
+worker sul canale.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="o">&lt;-</span><span class="nx">done</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run sincronizzazione-con-canali.go      
+</span></span><span class="line"><span class="cl"><span class="go">working...done                  </span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Se rimuovessi la riga <code>&lt;- done</code> da questo programma, il
+programma uscirebbe prima che il <code>worker</code> sia persino
+iniziato.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="direzioni-dei-canali" rel="next">Direzioni dei Canali</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func worker(done chan bool) {\u000A    fmt.Print(\"working...\")\u000A    time.Sleep(time.Second)\u000A    fmt.Println(\"done\")\u000A');codeLines.push('    done \u003C- true\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    done :\u003D make(chan bool, 1)\u000A    go worker(done)\u000A');codeLines.push('    \u003C-done\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

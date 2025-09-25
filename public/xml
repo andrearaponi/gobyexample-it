@@ -24,14 +24,14 @@
   </script>
   <body>
     <div class="example" id="xml">
-      <h2><a href="./">Go by Example</a>: XML</h2>
+      <h2><a href="./">Go by Example</a>: XML <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>Go offers built-in support for XML and XML-like
-formats with the <code>encoding/xml</code> package.</p>
+            <p>Go offre supporto integrato per XML e formati
+simili a XML con il pacchetto <code>encoding/xml</code>.</p>
 
           </td>
           <td class="code empty leading">
@@ -45,7 +45,7 @@ formats with the <code>encoding/xml</code> package.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/vsP5mIrNJOG"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/y7oqKgKKm1K"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -65,13 +65,13 @@ formats with the <code>encoding/xml</code> package.</p>
         
         <tr>
           <td class="docs">
-            <p>Plant will be mapped to XML. Similarly to the
-JSON examples, field tags contain directives for the
-encoder and decoder. Here we use some special features
-of the XML package: the <code>XMLName</code> field name dictates
-the name of the XML element representing this struct;
-<code>id,attr</code> means that the <code>Id</code> field is an XML
-<em>attribute</em> rather than a nested element.</p>
+            <p>Plant sarà mappato a XML. Similmente agli
+esempi JSON, i tag dei campi contengono direttive per
+encoder e decoder. Qui usiamo alcune funzionalità speciali
+del pacchetto XML: il nome del campo <code>XMLName</code> detta
+il nome dell&rsquo;elemento XML che rappresenta questo struct;
+<code>id,attr</code> significa che il campo <code>Id</code> è un
+<em>attributo</em> XML piuttosto che un elemento annidato.</p>
 
           </td>
           <td class="code leading">
@@ -112,9 +112,9 @@ the name of the XML element representing this struct;
         
         <tr>
           <td class="docs">
-            <p>Emit XML representing our plant; using
-<code>MarshalIndent</code> to produce a more
-human-readable output.</p>
+            <p>Emette XML che rappresenta la nostra pianta; usando
+<code>MarshalIndent</code> per produrre un output
+più leggibile dall&rsquo;uomo.</p>
 
           </td>
           <td class="code leading">
@@ -126,8 +126,8 @@ human-readable output.</p>
         
         <tr>
           <td class="docs">
-            <p>To add a generic XML header to the output, append
-it explicitly.</p>
+            <p>Per aggiungere un header XML generico all&rsquo;output, aggiungilo
+esplicitamente.</p>
 
           </td>
           <td class="code leading">
@@ -138,10 +138,10 @@ it explicitly.</p>
         
         <tr>
           <td class="docs">
-            <p>Use <code>Unmarshal</code> to parse a stream of bytes with XML
-into a data structure. If the XML is malformed or
-cannot be mapped onto Plant, a descriptive error
-will be returned.</p>
+            <p>Usa <code>Unmarshal</code> per parsare un flusso di byte con XML
+in una struttura dati. Se l&rsquo;XML è malformato o
+non può essere mappato su Plant, sarà restituito
+un errore descrittivo.</p>
 
           </td>
           <td class="code leading">
@@ -167,8 +167,8 @@ will be returned.</p>
         
         <tr>
           <td class="docs">
-            <p>The <code>parent&gt;child&gt;plant</code> field tag tells the encoder
-to nest all <code>plant</code>s under <code>&lt;parent&gt;&lt;child&gt;...</code></p>
+            <p>Il tag del campo <code>parent&gt;child&gt;plant</code> dice all&rsquo;encoder
+di annidare tutti i <code>plant</code> sotto <code>&lt;parent&gt;&lt;child&gt;...</code></p>
 
           </td>
           <td class="code leading">
@@ -249,12 +249,13 @@ to nest all <code>plant</code>s under <code>&lt;parent&gt;&lt;child&gt;...</code
       
       
       <p class="next">
-        Next example: <a href="time" rel="next">Time</a>.
+        Prossimo esempio: <a href="time" rel="next">Time</a>.
       </p>
       
 
     <p class="footer">
-      by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> and <a href="https://eli.thegreenplace.net">Eli Bendersky</a> | <a href="https://github.com/mmcgrana/gobyexample">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
     </p>
 
     </div>

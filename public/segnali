@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Segnali</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'esecuzione-processi';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'exit';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="segnali">
+      <h2><a href="./">Go by Example</a>: Segnali <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>A volte vorremmo che i nostri programmi Go gestiscano intelligentemente
+i <a href="https://en.wikipedia.org/wiki/Unix_signal">segnali Unix</a>.
+Per esempio, potremmo volere che un server si spenga
+gracefully quando riceve un <code>SIGTERM</code>, o che uno strumento
+da riga di comando smetta di processare input se riceve un <code>SIGINT</code>.
+Ecco come gestire i segnali in Go con i canali.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/TvQmrgqJrGj"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os/signal&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;syscall&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>La notifica dei segnali di Go funziona inviando valori
+<code>os.Signal</code> su un canale. Creeremo un canale per
+ricevere queste notifiche. Nota che questo canale
+dovrebbe essere bufferizzato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">sigs</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>signal.Notify</code> registra il canale dato per
+ricevere notifiche dei segnali specificati.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">sigs</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span> <span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Potremmo ricevere da <code>sigs</code> qui nella funzione
+main, ma vediamo come questo possa essere fatto
+anche in una goroutine separata, per dimostrare
+uno scenario più realistico di spegnimento graceful.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">done</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">bool</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questa goroutine esegue una ricezione bloccante per
+i segnali. Quando ne riceve uno lo stamperà
+e poi notificherà al programma che può finire.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">        <span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">sigs</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">sig</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">done</span> <span class="o">&lt;-</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}()</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Il programma aspetterà qui fino a quando non riceve il
+segnale atteso (come indicato dalla goroutine
+sopra che invia un valore su <code>done</code>) e poi uscirà.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;awaiting signal&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;-</span><span class="nx">done</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;exiting&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Quando eseguiamo questo programma si bloccherà aspettando un
+segnale. Digitando <code>ctrl-C</code> (che il
+terminale mostra come <code>^C</code>) possiamo inviare un segnale <code>SIGINT</code>,
+facendo stampare al programma <code>interrupt</code> e poi uscire.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run segnali.go
+</span></span><span class="line"><span class="cl"><span class="go">awaiting signal
+</span></span></span><span class="line"><span class="cl"><span class="go">^C
+</span></span></span><span class="line"><span class="cl"><span class="go">interrupt
+</span></span></span><span class="line"><span class="cl"><span class="go">exiting</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="exit" rel="next">Exit</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"os\"\u000A    \"os/signal\"\u000A    \"syscall\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    sigs :\u003D make(chan os.Signal, 1)\u000A');codeLines.push('    signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)\u000A');codeLines.push('    done :\u003D make(chan bool, 1)\u000A');codeLines.push('    go func() {\u000A');codeLines.push('        sig :\u003D \u003C-sigs\u000A        fmt.Println()\u000A        fmt.Println(sig)\u000A        done \u003C- true\u000A    }()\u000A');codeLines.push('    fmt.Println(\"awaiting signal\")\u000A    \u003C-done\u000A    fmt.Println(\"exiting\")\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

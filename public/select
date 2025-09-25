@@ -12,27 +12,27 @@
           }
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'channel-directions';
+              window.location.href = 'direzioni-dei-canali';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'timeouts';
+              window.location.href = 'timeout';
           }
           
       }
   </script>
   <body>
     <div class="example" id="select">
-      <h2><a href="./">Go by Example</a>: Select</h2>
+      <h2><a href="./">Go by Example</a>: Select <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>Go&rsquo;s <em>select</em> lets you wait on multiple channel
-operations. Combining goroutines and channels with
-select is a powerful feature of Go.</p>
+            <p>Il <em>select</em> di Go ti permette di aspettare su multiple
+operazioni di canale. Combinare goroutine e canali con
+select è una funzionalità potente di Go.</p>
 
           </td>
           <td class="code empty leading">
@@ -46,7 +46,7 @@ select is a powerful feature of Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/dOrjUfgGwB2"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/Ja1ClSh1s0S"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -76,7 +76,7 @@ select is a powerful feature of Go.</p>
         
         <tr>
           <td class="docs">
-            <p>For our example we&rsquo;ll select across two channels.</p>
+            <p>Per il nostro esempio faremo select su due canali.</p>
 
           </td>
           <td class="code leading">
@@ -88,9 +88,9 @@ select is a powerful feature of Go.</p>
         
         <tr>
           <td class="docs">
-            <p>Each channel will receive a value after some amount
-of time, to simulate e.g. blocking RPC operations
-executing in concurrent goroutines.</p>
+            <p>Ogni canale riceverà un valore dopo un certo
+tempo, per simulare ad es. operazioni RPC bloccanti
+in esecuzione in goroutine concorrenti.</p>
 
           </td>
           <td class="code leading">
@@ -108,8 +108,8 @@ executing in concurrent goroutines.</p>
         
         <tr>
           <td class="docs">
-            <p>We&rsquo;ll use <code>select</code> to await both of these values
-simultaneously, printing each one as it arrives.</p>
+            <p>Useremo <code>select</code> per aspettare entrambi questi valori
+simultaneamente, stampando ognuno non appena arriva.</p>
 
           </td>
           <td class="code">
@@ -132,8 +132,8 @@ simultaneously, printing each one as it arrives.</p>
         
         <tr>
           <td class="docs">
-            <p>We receive the values <code>&quot;one&quot;</code> and then <code>&quot;two&quot;</code> as
-expected.</p>
+            <p>Riceviamo i valori <code>&quot;one&quot;</code> e poi <code>&quot;two&quot;</code> come
+previsto.</p>
 
           </td>
           <td class="code leading">
@@ -146,9 +146,9 @@ expected.</p>
         
         <tr>
           <td class="docs">
-            <p>Note that the total execution time is only ~2 seconds
-since both the 1 and 2 second <code>Sleeps</code> execute
-concurrently.</p>
+            <p>Nota che il tempo totale di esecuzione è solo ~2 secondi
+poiché entrambi i <code>Sleep</code> di 1 e 2 secondi vengono eseguiti
+concorrentemente.</p>
 
           </td>
           <td class="code">
@@ -161,12 +161,13 @@ concurrently.</p>
       
       
       <p class="next">
-        Next example: <a href="timeouts" rel="next">Timeouts</a>.
+        Prossimo esempio: <a href="timeout" rel="next">Timeout</a>.
       </p>
       
 
     <p class="footer">
-      by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> and <a href="https://eli.thegreenplace.net">Eli Bendersky</a> | <a href="https://github.com/mmcgrana/gobyexample">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
     </p>
 
     </div>

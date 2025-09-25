@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Lettura File</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'codifica-base64';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'scrittura-file';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="lettura-file">
+      <h2><a href="./">Go by Example</a>: Lettura File <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Leggere e scrivere file sono compiti base necessari per
+molti programmi Go. Prima esamineremo alcuni esempi di
+lettura di file.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/jh2AhFi5D_9"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;bufio&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;io&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Leggere file richiede di controllare la maggior parte delle chiamate per errori.
+Questo helper semplificherà i nostri controlli di errore qui sotto.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">check</span><span class="p">(</span><span class="nx">e</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Forse il compito più basilare di lettura file è
+inghiottire l&rsquo;intero contenuto di un file in memoria.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">dat</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">ReadFile</span><span class="p">(</span><span class="s">&#34;/tmp/dat&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">dat</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Spesso vorrai più controllo su come e quali
+parti di un file vengono lette. Per questi compiti, inizia
+aprendo (<code>Open</code>) un file per ottenere un valore <code>os.File</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Open</span><span class="p">(</span><span class="s">&#34;/tmp/dat&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Leggi alcuni byte dall&rsquo;inizio del file.
+Permetti fino a 5 di essere letti ma nota anche quanti
+sono stati effettivamente letti.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">b1</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">n1</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">b1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%d bytes: %s\n&#34;</span><span class="p">,</span> <span class="nx">n1</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">b1</span><span class="p">[:</span><span class="nx">n1</span><span class="p">]))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Puoi anche fare <code>Seek</code> a una posizione conosciuta nel file
+e leggere (<code>Read</code>) da lì.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">o2</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Seek</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="nx">io</span><span class="p">.</span><span class="nx">SeekStart</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">b2</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">n2</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Read</span><span class="p">(</span><span class="nx">b2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%d bytes @ %d: &#34;</span><span class="p">,</span> <span class="nx">n2</span><span class="p">,</span> <span class="nx">o2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%v\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">b2</span><span class="p">[:</span><span class="nx">n2</span><span class="p">]))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Altri metodi di seek sono relativi alla
+posizione corrente del cursore,</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Seek</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nx">io</span><span class="p">.</span><span class="nx">SeekCurrent</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>e relativi alla fine del file.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Seek</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="nx">io</span><span class="p">.</span><span class="nx">SeekEnd</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Il pacchetto <code>io</code> fornisce alcune funzioni che possono
+essere utili per la lettura di file. Per esempio, le letture
+come quelle sopra possono essere implementate più robustamente
+con <code>ReadAtLeast</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">o3</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Seek</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="nx">io</span><span class="p">.</span><span class="nx">SeekStart</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">b3</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">n3</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nf">ReadAtLeast</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="nx">b3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%d bytes @ %d: %s\n&#34;</span><span class="p">,</span> <span class="nx">n3</span><span class="p">,</span> <span class="nx">o3</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">b3</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Non c&rsquo;è un rewind integrato, ma
+<code>Seek(0, io.SeekStart)</code> realizza questo.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">f</span><span class="p">.</span><span class="nf">Seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">io</span><span class="p">.</span><span class="nx">SeekStart</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Il pacchetto <code>bufio</code> implementa un reader
+bufferizzato che può essere utile sia per la sua efficienza
+con molte piccole letture che per i metodi di lettura
+aggiuntivi che fornisce.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">r4</span> <span class="o">:=</span> <span class="nx">bufio</span><span class="p">.</span><span class="nf">NewReader</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">b4</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r4</span><span class="p">.</span><span class="nf">Peek</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;5 bytes: %s\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">b4</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Chiudi il file quando hai finito (di solito questo verrebbe
+programmato immediatamente dopo l&rsquo;apertura (<code>Open</code>) con
+<code>defer</code>).</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">f</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> echo &#34;hello&#34; &gt; /tmp/dat
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> echo &#34;go&#34; &gt;&gt;   /tmp/dat
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> go run lettura-file.go
+</span></span><span class="line"><span class="cl"><span class="go">hello
+</span></span></span><span class="line"><span class="cl"><span class="go">go
+</span></span></span><span class="line"><span class="cl"><span class="go">5 bytes: hello
+</span></span></span><span class="line"><span class="cl"><span class="go">2 bytes @ 6: go
+</span></span></span><span class="line"><span class="cl"><span class="go">2 bytes @ 6: go
+</span></span></span><span class="line"><span class="cl"><span class="go">5 bytes: hello</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Prossimamente esamineremo la scrittura di file.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="scrittura-file" rel="next">Scrittura File</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"bufio\"\u000A    \"fmt\"\u000A    \"io\"\u000A    \"os\"\u000A)\u000A');codeLines.push('func check(e error) {\u000A    if e !\u003D nil {\u000A        panic(e)\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    dat, err :\u003D os.ReadFile(\"/tmp/dat\")\u000A    check(err)\u000A    fmt.Print(string(dat))\u000A');codeLines.push('    f, err :\u003D os.Open(\"/tmp/dat\")\u000A    check(err)\u000A');codeLines.push('    b1 :\u003D make([]byte, 5)\u000A    n1, err :\u003D f.Read(b1)\u000A    check(err)\u000A    fmt.Printf(\"%d bytes: %s\\n\", n1, string(b1[:n1]))\u000A');codeLines.push('    o2, err :\u003D f.Seek(6, io.SeekStart)\u000A    check(err)\u000A    b2 :\u003D make([]byte, 2)\u000A    n2, err :\u003D f.Read(b2)\u000A    check(err)\u000A    fmt.Printf(\"%d bytes @ %d: \", n2, o2)\u000A    fmt.Printf(\"%v\\n\", string(b2[:n2]))\u000A');codeLines.push('    _, err \u003D f.Seek(2, io.SeekCurrent)\u000A    check(err)\u000A');codeLines.push('    _, err \u003D f.Seek(-4, io.SeekEnd)\u000A    check(err)\u000A');codeLines.push('    o3, err :\u003D f.Seek(6, io.SeekStart)\u000A    check(err)\u000A    b3 :\u003D make([]byte, 2)\u000A    n3, err :\u003D io.ReadAtLeast(f, b3, 2)\u000A    check(err)\u000A    fmt.Printf(\"%d bytes @ %d: %s\\n\", n3, o3, string(b3))\u000A');codeLines.push('    _, err \u003D f.Seek(0, io.SeekStart)\u000A    check(err)\u000A');codeLines.push('    r4 :\u003D bufio.NewReader(f)\u000A    b4, err :\u003D r4.Peek(5)\u000A    check(err)\u000A    fmt.Printf(\"5 bytes: %s\\n\", string(b4))\u000A');codeLines.push('    f.Close()\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

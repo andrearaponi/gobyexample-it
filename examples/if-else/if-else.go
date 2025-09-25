@@ -1,5 +1,5 @@
-// Branching with `if` and `else` in Go is
-// straight-forward.
+// La ramificazione con `if` ed `else` in Go è
+// semplice e diretta.
 
 package main
 
@@ -7,27 +7,27 @@ import "fmt"
 
 func main() {
 
-	// Here's a basic example.
+	// Ecco un esempio di base.
 	if 7%2 == 0 {
 		fmt.Println("7 is even")
 	} else {
 		fmt.Println("7 is odd")
 	}
 
-	// You can have an `if` statement without an else.
+	// Puoi avere un'istruzione `if` senza else.
 	if 8%4 == 0 {
 		fmt.Println("8 is divisible by 4")
 	}
 
-	// Logical operators like `&&` and `||` are often
-	// useful in conditions.
+	// Gli operatori logici come `&&` e `||` sono spesso
+	// utili nelle condizioni.
 	if 8%2 == 0 || 7%2 == 0 {
 		fmt.Println("either 8 or 7 are even")
 	}
 
-	// A statement can precede conditionals; any variables
-	// declared in this statement are available in the current
-	// and all subsequent branches.
+	// Un'istruzione può precedere i condizionali; qualsiasi variabile
+	// dichiarata in questa istruzione è disponibile nel ramo corrente
+	// e in tutti i rami successivi.
 	if num := 9; num < 0 {
 		fmt.Println(num, "is negative")
 	} else if num < 10 {
@@ -37,5 +37,5 @@ func main() {
 	}
 }
 
-// Note that you don't need parentheses around conditions
-// in Go, but that the braces are required.
+// Nota che non sono necessarie le parentesi attorno alle condizioni
+// in Go, ma le parentesi graffe sono obbligatorie.

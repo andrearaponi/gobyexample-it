@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Formattazione Stringhe</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'funzioni-per-stringhe';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'template-di-testo';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="formattazione-stringhe">
+      <h2><a href="./">Go by Example</a>: Formattazione Stringhe <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go offre un eccellente supporto per la formattazione delle stringhe nella
+tradizione <code>printf</code>. Ecco alcuni esempi di
+attività comuni di formattazione delle stringhe.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/OIE3hR1zRZz"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">point</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go offre diversi &ldquo;verbi&rdquo; di stampa progettati per
+formattare valori Go generali. Per esempio, questo stampa
+un&rsquo;istanza della nostra struct <code>point</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">p</span> <span class="o">:=</span> <span class="nx">point</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;struct1: %v\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Se il valore è una struct, la variante <code>%+v</code>
+includerà i nomi dei campi della struct.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;struct2: %+v\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>La variante <code>%#v</code> stampa una rappresentazione della sintassi Go
+del valore, cioè il frammento di codice sorgente che
+produrrebbe quel valore.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;struct3: %#v\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per stampare il tipo di un valore, usa <code>%T</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;type: %T\n&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>La formattazione dei booleani è diretta.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;bool: %t\n&#34;</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ci sono molte opzioni per formattare gli interi.
+Usa <code>%d</code> per la formattazione standard, base-10.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;int: %d\n&#34;</span><span class="p">,</span> <span class="mi">123</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questo stampa una rappresentazione binaria.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;bin: %b\n&#34;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questo stampa il carattere corrispondente
+all&rsquo;intero dato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;char: %c\n&#34;</span><span class="p">,</span> <span class="mi">33</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>%x</code> fornisce la codifica esadecimale.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;hex: %x\n&#34;</span><span class="p">,</span> <span class="mi">456</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ci sono anche diverse opzioni di formattazione per
+i float. Per la formattazione decimale di base usa <code>%f</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;float1: %f\n&#34;</span><span class="p">,</span> <span class="mf">78.9</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>%e</code> e <code>%E</code> formattano il float in (versioni leggermente
+diverse della) notazione scientifica.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;float2: %e\n&#34;</span><span class="p">,</span> <span class="mf">123400000.0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;float3: %E\n&#34;</span><span class="p">,</span> <span class="mf">123400000.0</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per la stampa di base delle stringhe usa <code>%s</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;str1: %s\n&#34;</span><span class="p">,</span> <span class="s">&#34;\&#34;string\&#34;&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per racchiudere le stringhe tra virgolette doppie come nel sorgente Go, usa <code>%q</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;str2: %q\n&#34;</span><span class="p">,</span> <span class="s">&#34;\&#34;string\&#34;&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Come con gli interi visti prima, <code>%x</code> rende
+la stringa in base-16, con due caratteri di output
+per byte di input.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;str3: %x\n&#34;</span><span class="p">,</span> <span class="s">&#34;hex this&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per stampare una rappresentazione di un puntatore, usa <code>%p</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;pointer: %p\n&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">p</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Quando formatti i numeri spesso vorrai
+controllare la larghezza e la precisione della figura
+risultante. Per specificare la larghezza di un intero, usa un
+numero dopo il <code>%</code> nel verbo. Per default il
+risultato sarà allineato a destra e riempito con
+spazi.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;width1: |%6d|%6d|\n&#34;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">345</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Puoi anche specificare la larghezza dei float stampati,
+anche se di solito vorrai anche limitare la
+precisione decimale allo stesso tempo con la
+sintassi width.precision.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;width2: |%6.2f|%6.2f|\n&#34;</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.45</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per allineare a sinistra, usa il flag <code>-</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;width3: |%-6.2f|%-6.2f|\n&#34;</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">3.45</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Potresti anche voler controllare la larghezza quando formatti
+le stringhe, specialmente per assicurarti che si allineino in
+output simili a tabelle. Per larghezza base allineata a destra.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;width4: |%6s|%6s|\n&#34;</span><span class="p">,</span> <span class="s">&#34;foo&#34;</span><span class="p">,</span> <span class="s">&#34;b&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per allineare a sinistra usa il flag <code>-</code> come con i numeri.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;width5: |%-6s|%-6s|\n&#34;</span><span class="p">,</span> <span class="s">&#34;foo&#34;</span><span class="p">,</span> <span class="s">&#34;b&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Finora abbiamo visto <code>Printf</code>, che stampa la
+stringa formattata su <code>os.Stdout</code>. <code>Sprintf</code> formatta
+e restituisce una stringa senza stamparla da nessuna parte.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">s</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;sprintf: a %s&#34;</span><span class="p">,</span> <span class="s">&#34;string&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Puoi formattare+stampare su <code>io.Writers</code> diversi da
+<code>os.Stdout</code> usando <code>Fprintf</code>.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintf</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&#34;io: an %s\n&#34;</span><span class="p">,</span> <span class="s">&#34;error&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run formattazione-stringhe.go
+</span></span><span class="line"><span class="cl"><span class="go">struct1: {1 2}
+</span></span></span><span class="line"><span class="cl"><span class="go">struct2: {x:1 y:2}
+</span></span></span><span class="line"><span class="cl"><span class="go">struct3: main.point{x:1, y:2}
+</span></span></span><span class="line"><span class="cl"><span class="go">type: main.point
+</span></span></span><span class="line"><span class="cl"><span class="go">bool: true
+</span></span></span><span class="line"><span class="cl"><span class="go">int: 123
+</span></span></span><span class="line"><span class="cl"><span class="go">bin: 1110
+</span></span></span><span class="line"><span class="cl"><span class="go">char: !
+</span></span></span><span class="line"><span class="cl"><span class="go">hex: 1c8
+</span></span></span><span class="line"><span class="cl"><span class="go">float1: 78.900000
+</span></span></span><span class="line"><span class="cl"><span class="go">float2: 1.234000e+08
+</span></span></span><span class="line"><span class="cl"><span class="go">float3: 1.234000E+08
+</span></span></span><span class="line"><span class="cl"><span class="go">str1: &#34;string&#34;
+</span></span></span><span class="line"><span class="cl"><span class="go">str2: &#34;\&#34;string\&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="go">str3: 6865782074686973
+</span></span></span><span class="line"><span class="cl"><span class="go">pointer: 0xc0000ba000
+</span></span></span><span class="line"><span class="cl"><span class="go">width1: |    12|   345|
+</span></span></span><span class="line"><span class="cl"><span class="go">width2: |  1.20|  3.45|
+</span></span></span><span class="line"><span class="cl"><span class="go">width3: |1.20  |3.45  |
+</span></span></span><span class="line"><span class="cl"><span class="go">width4: |   foo|     b|
+</span></span></span><span class="line"><span class="cl"><span class="go">width5: |foo   |b     |
+</span></span></span><span class="line"><span class="cl"><span class="go">sprintf: a string
+</span></span></span><span class="line"><span class="cl"><span class="go">io: an error</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="template-di-testo" rel="next">Template di Testo</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"os\"\u000A)\u000A');codeLines.push('type point struct {\u000A    x, y int\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    p :\u003D point{1, 2}\u000A    fmt.Printf(\"struct1: %v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"struct2: %+v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"struct3: %#v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"type: %T\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"bool: %t\\n\", true)\u000A');codeLines.push('    fmt.Printf(\"int: %d\\n\", 123)\u000A');codeLines.push('    fmt.Printf(\"bin: %b\\n\", 14)\u000A');codeLines.push('    fmt.Printf(\"char: %c\\n\", 33)\u000A');codeLines.push('    fmt.Printf(\"hex: %x\\n\", 456)\u000A');codeLines.push('    fmt.Printf(\"float1: %f\\n\", 78.9)\u000A');codeLines.push('    fmt.Printf(\"float2: %e\\n\", 123400000.0)\u000A    fmt.Printf(\"float3: %E\\n\", 123400000.0)\u000A');codeLines.push('    fmt.Printf(\"str1: %s\\n\", \"\\\"string\\\"\")\u000A');codeLines.push('    fmt.Printf(\"str2: %q\\n\", \"\\\"string\\\"\")\u000A');codeLines.push('    fmt.Printf(\"str3: %x\\n\", \"hex this\")\u000A');codeLines.push('    fmt.Printf(\"pointer: %p\\n\", \u0026p)\u000A');codeLines.push('    fmt.Printf(\"width1: |%6d|%6d|\\n\", 12, 345)\u000A');codeLines.push('    fmt.Printf(\"width2: |%6.2f|%6.2f|\\n\", 1.2, 3.45)\u000A');codeLines.push('    fmt.Printf(\"width3: |%-6.2f|%-6.2f|\\n\", 1.2, 3.45)\u000A');codeLines.push('    fmt.Printf(\"width4: |%6s|%6s|\\n\", \"foo\", \"b\")\u000A');codeLines.push('    fmt.Printf(\"width5: |%-6s|%-6s|\\n\", \"foo\", \"b\")\u000A');codeLines.push('    s :\u003D fmt.Sprintf(\"sprintf: a %s\", \"string\")\u000A    fmt.Println(s)\u000A');codeLines.push('    fmt.Fprintf(os.Stderr, \"io: an %s\\n\", \"error\")\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

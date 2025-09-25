@@ -1,9 +1,9 @@
-# To try out our line filter, first make a file with a few
-# lowercase lines.
+# Per provare il nostro line filter, prima crea un file con alcune
+# linee minuscole.
 $ echo 'hello'   > /tmp/lines
 $ echo 'filter' >> /tmp/lines
 
-# Then use the line filter to get uppercase lines.
+# Poi usa il line filter per ottenere linee maiuscole.
 $ cat /tmp/lines | go run line-filters.go
 HELLO
 FILTER

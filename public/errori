@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Errori</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'range-sugli-iteratori';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'errori-personalizzati';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="errori">
+      <h2><a href="./">Go by Example</a>: Errori <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>In Go è idiomatico comunicare gli errori tramite un
+valore di ritorno esplicito e separato. Questo si contrappone
+alle eccezioni usate in linguaggi come Java e Ruby e al
+singolo valore di ritorno che, in C, talvolta funge sia da
+risultato che da errore. L&rsquo;approccio di Go rende immediato
+capire quali funzioni restituiscono errori e gestirli
+utilizzando gli stessi costrutti del linguaggio impiegati
+anche per altre operazioni non legate agli errori.</p>
+
+<p>Vedi la documentazione del <a href="https://pkg.go.dev/errors">pacchetto errors</a>
+e <a href="https://go.dev/blog/go1.13-errors">questo blog post</a> per dettagli
+aggiuntivi.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/OECFTPFK7Jk"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;errors&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per convenzione, gli errori sono l&rsquo;ultimo valore di ritorno e
+hanno tipo <code>error</code>, un&rsquo;interfaccia built-in.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">f</span><span class="p">(</span><span class="nx">arg</span> <span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">arg</span> <span class="o">==</span> <span class="mi">42</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>errors.New</code> costruisce un valore <code>error</code> di base
+con il messaggio di errore dato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;can&#39;t work with 42&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Un valore <code>nil</code> nella posizione dell&rsquo;errore indica che
+non c&rsquo;è stato alcun errore.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">arg</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Un errore sentinella è una variabile predichiarata che è usata per
+indicare una condizione di errore specifica.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ErrOutOfTea</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;no more tea available&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">ErrPower</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;can&#39;t boil water&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">makeTea</span><span class="p">(</span><span class="nx">arg</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">arg</span> <span class="o">==</span> <span class="mi">2</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">ErrOutOfTea</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">arg</span> <span class="o">==</span> <span class="mi">4</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo avvolgere gli errori con errori di livello superiore per aggiungere
+contesto. Il modo più semplice per farlo è con il
+verbo <code>%w</code> in <code>fmt.Errorf</code>. Gli errori avvolti
+creano una catena logica (A avvolge B, che avvolge C, ecc.)
+che può essere interrogata con funzioni come <code>errors.Is</code>
+e <code>errors.As</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;making tea: %w&#34;</span><span class="p">,</span> <span class="nx">ErrPower</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">7</span><span class="p">,</span> <span class="mi">42</span><span class="p">}</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>È comune usare un controllo di errore inline nella riga
+<code>if</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nf">f</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;f failed:&#34;</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;f worked:&#34;</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="mi">5</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">makeTea</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>errors.Is</code> controlla che un dato errore (o qualsiasi errore nella sua catena)
+corrisponda a un valore di errore specifico. Questo è particolarmente utile con errori avvolti o
+annidati, permettendoti di identificare tipi di errore specifici o errori
+sentinella in una catena di errori.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">            <span class="k">if</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">Is</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">ErrOutOfTea</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;We should buy new tea!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">Is</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">ErrPower</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Now it is dark.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;unknown error: %s\n&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Tea is ready!&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run errori.go
+</span></span><span class="line"><span class="cl"><span class="go">f worked: 10
+</span></span></span><span class="line"><span class="cl"><span class="go">f failed: can&#39;t work with 42
+</span></span></span><span class="line"><span class="cl"><span class="go">Tea is ready!
+</span></span></span><span class="line"><span class="cl"><span class="go">Tea is ready!
+</span></span></span><span class="line"><span class="cl"><span class="go">We should buy new tea!
+</span></span></span><span class="line"><span class="cl"><span class="go">Tea is ready!
+</span></span></span><span class="line"><span class="cl"><span class="go">Now it is dark.</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="errori-personalizzati" rel="next">Errori Personalizzati</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"errors\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('func f(arg int) (int, error) {\u000A    if arg \u003D\u003D 42 {\u000A');codeLines.push('        return -1, errors.New(\"can\'t work with 42\")\u000A    }\u000A');codeLines.push('    return arg + 3, nil\u000A}\u000A');codeLines.push('var ErrOutOfTea \u003D fmt.Errorf(\"no more tea available\")\u000Avar ErrPower \u003D fmt.Errorf(\"can\'t boil water\")\u000A');codeLines.push('func makeTea(arg int) error {\u000A    if arg \u003D\u003D 2 {\u000A        return ErrOutOfTea\u000A    } else if arg \u003D\u003D 4 {\u000A');codeLines.push('        return fmt.Errorf(\"making tea: %w\", ErrPower)\u000A    }\u000A    return nil\u000A}\u000A');codeLines.push('func main() {\u000A    for _, i :\u003D range []int{7, 42} {\u000A');codeLines.push('        if r, e :\u003D f(i); e !\u003D nil {\u000A            fmt.Println(\"f failed:\", e)\u000A        } else {\u000A            fmt.Println(\"f worked:\", r)\u000A        }\u000A    }\u000A');codeLines.push('    for i :\u003D range 5 {\u000A        if err :\u003D makeTea(i); err !\u003D nil {\u000A');codeLines.push('            if errors.Is(err, ErrOutOfTea) {\u000A                fmt.Println(\"We should buy new tea!\")\u000A            } else if errors.Is(err, ErrPower) {\u000A                fmt.Println(\"Now it is dark.\")\u000A            } else {\u000A                fmt.Printf(\"unknown error: %s\\n\", err)\u000A            }\u000A            continue\u000A        }\u000A');codeLines.push('        fmt.Println(\"Tea is ready!\")\u000A    }\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

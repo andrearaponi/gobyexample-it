@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Array</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'switch';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'slice';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="array">
+      <h2><a href="./">Go by Example</a>: Array <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>In Go, un <em>array</em> è una sequenza numerata di elementi di una
+lunghezza specifica. Nel codice Go tipico, le <a href="slices">slice</a> sono
+molto più comuni; gli array sono utili in alcuni scenari
+speciali.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/YCbTJPX-m04"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Qui creiamo un array <code>a</code> che conterrà esattamente
+5 <code>int</code>. Il tipo degli elementi e la lunghezza fanno entrambi
+parte del tipo dell&rsquo;array. Di default un array ha
+valore zero, che per gli <code>int</code> significa <code>0</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">a</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;emp:&#34;</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo impostare un valore a un indice usando la
+sintassi <code>array[indice] = valore</code>, e ottenere un valore con
+<code>array[indice]</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">a</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="p">=</span> <span class="mi">100</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;set:&#34;</span><span class="p">,</span> <span class="nx">a</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;get:&#34;</span><span class="p">,</span> <span class="nx">a</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>La funzione builtin <code>len</code> restituisce la lunghezza di un array.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;len:&#34;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">a</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Usa questa sintassi per dichiarare e inizializzare un array
+in una sola riga.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">b</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;dcl:&#34;</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Puoi anche far contare al compilatore il numero di
+elementi per te con <code>...</code></p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">b</span> <span class="p">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;dcl:&#34;</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Se specifichi l&rsquo;indice con <code>:</code>, gli elementi
+intermedi saranno azzerati.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">b</span> <span class="p">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">500</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;idx:&#34;</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>I tipi array sono unidimensionali, ma puoi
+comporre i tipi per costruire strutture dati
+multidimensionali.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">twoD</span> <span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="mi">2</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="nx">j</span> <span class="o">:=</span> <span class="k">range</span> <span class="mi">3</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">twoD</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">i</span> <span class="o">+</span> <span class="nx">j</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;2d: &#34;</span><span class="p">,</span> <span class="nx">twoD</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Puoi anche creare e inizializzare array
+multidimensionali in una sola volta.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">twoD</span> <span class="p">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;2d: &#34;</span><span class="p">,</span> <span class="nx">twoD</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Nota che gli array appaiono nella forma <code>[v1 v2 v3 ...]</code>
+quando stampati con <code>fmt.Println</code>.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run array.go
+</span></span><span class="line"><span class="cl"><span class="go">emp: [0 0 0 0 0]
+</span></span></span><span class="line"><span class="cl"><span class="go">set: [0 0 0 0 100]
+</span></span></span><span class="line"><span class="cl"><span class="go">get: 100
+</span></span></span><span class="line"><span class="cl"><span class="go">len: 5
+</span></span></span><span class="line"><span class="cl"><span class="go">dcl: [1 2 3 4 5]
+</span></span></span><span class="line"><span class="cl"><span class="go">dcl: [1 2 3 4 5]
+</span></span></span><span class="line"><span class="cl"><span class="go">idx: [100 0 0 400 500]
+</span></span></span><span class="line"><span class="cl"><span class="go">2d:  [[0 1 2] [1 2 3]]
+</span></span></span><span class="line"><span class="cl"><span class="go">2d:  [[1 2 3] [1 2 3]]</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="slice" rel="next">Slice</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var a [5]int\u000A    fmt.Println(\"emp:\", a)\u000A');codeLines.push('    a[4] \u003D 100\u000A    fmt.Println(\"set:\", a)\u000A    fmt.Println(\"get:\", a[4])\u000A');codeLines.push('    fmt.Println(\"len:\", len(a))\u000A');codeLines.push('    b :\u003D [5]int{1, 2, 3, 4, 5}\u000A    fmt.Println(\"dcl:\", b)\u000A');codeLines.push('    b \u003D [...]int{1, 2, 3, 4, 5}\u000A    fmt.Println(\"dcl:\", b)\u000A');codeLines.push('    b \u003D [...]int{100, 3: 400, 500}\u000A    fmt.Println(\"idx:\", b)\u000A');codeLines.push('    var twoD [2][3]int\u000A    for i :\u003D range 2 {\u000A        for j :\u003D range 3 {\u000A            twoD[i][j] \u003D i + j\u000A        }\u000A    }\u000A    fmt.Println(\"2d: \", twoD)\u000A');codeLines.push('    twoD \u003D [2][3]int{\u000A        {1, 2, 3},\u000A        {1, 2, 3},\u000A    }\u000A    fmt.Println(\"2d: \", twoD)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

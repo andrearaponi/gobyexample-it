@@ -13,25 +13,25 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'values';
+              window.location.href = 'valori';
           }
           
       }
   </script>
   <body>
     <div class="example" id="hello-world">
-      <h2><a href="./">Go by Example</a>: Hello World</h2>
+      <h2><a href="./">Go by Example</a>: Hello World <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>Our first program will print the classic &ldquo;hello world&rdquo;
-message. Here&rsquo;s the full source code.</p>
+            <p>Il nostro primo programma stamperà il classico messaggio
+&ldquo;hello world&rdquo;. Ecco il codice sorgente completo.</p>
 
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/NeviD0awXjt"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/iBmxVsyA9ZA"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -64,8 +64,8 @@ message. Here&rsquo;s the full source code.</p>
         
         <tr>
           <td class="docs">
-            <p>To run the program, put the code in <code>hello-world.go</code> and
-use <code>go run</code>.</p>
+            <p>Per eseguire il programma, inserisci il codice in <code>hello-world.go</code> e
+usa <code>go run</code>.</p>
 
           </td>
           <td class="code leading">
@@ -77,8 +77,8 @@ use <code>go run</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Sometimes we&rsquo;ll want to build our programs into
-binaries. We can do this using <code>go build</code>.</p>
+            <p>A volte vorremo compilare i nostri programmi in
+file binari. Possiamo farlo usando <code>go build</code>.</p>
 
           </td>
           <td class="code leading">
@@ -91,7 +91,7 @@ binaries. We can do this using <code>go build</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>We can then execute the built binary directly.</p>
+            <p>Possiamo quindi eseguire direttamente il binario compilato.</p>
 
           </td>
           <td class="code leading">
@@ -103,8 +103,8 @@ binaries. We can do this using <code>go build</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Now that we can run and build basic Go programs, let&rsquo;s
-learn more about the language.</p>
+            <p>Ora che sappiamo eseguire e compilare programmi Go di base,
+impariamo di piu&rsquo; sul linguaggio.</p>
 
           </td>
           <td class="code empty">
@@ -117,12 +117,13 @@ learn more about the language.</p>
       
       
       <p class="next">
-        Next example: <a href="values" rel="next">Values</a>.
+        Prossimo esempio: <a href="valori" rel="next">Valori</a>.
       </p>
       
 
     <p class="footer">
-      by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> and <a href="https://eli.thegreenplace.net">Eli Bendersky</a> | <a href="https://github.com/mmcgrana/gobyexample">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
     </p>
 
     </div>

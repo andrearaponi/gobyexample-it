@@ -12,34 +12,34 @@
           }
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'environment-variables';
+              window.location.href = 'variabili-ambiente';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'http-client';
+              window.location.href = 'client-http';
           }
           
       }
   </script>
   <body>
     <div class="example" id="logging">
-      <h2><a href="./">Go by Example</a>: Logging</h2>
+      <h2><a href="./">Go by Example</a>: Logging <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>The Go standard library provides straightforward
-tools for outputting logs from Go programs, with
-the <a href="https://pkg.go.dev/log">log</a> package for
-free-form output and the
-<a href="https://pkg.go.dev/log/slog">log/slog</a> package for
-structured output.</p>
+            <p>La libreria standard di Go fornisce strumenti
+semplici per l&rsquo;output dei log dai programmi Go, con
+il pacchetto <a href="https://pkg.go.dev/log">log</a> per
+output libero e il pacchetto
+<a href="https://pkg.go.dev/log/slog">log/slog</a> per
+output strutturato.</p>
 
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/Qd0uCqBlYUn"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/3uohWPtdLWB"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -81,12 +81,12 @@ structured output.</p>
         
         <tr>
           <td class="docs">
-            <p>Simply invoking functions like <code>Println</code> from the
-<code>log</code> package uses the <em>standard</em> logger, which
-is already pre-configured for reasonable logging
-output to <code>os.Stderr</code>. Additional methods like
-<code>Fatal*</code> or <code>Panic*</code> will exit the program after
-logging.</p>
+            <p>Semplicemente invocando funzioni come <code>Println</code>
+dal pacchetto <code>log</code> si usa il logger <em>standard</em>,
+che è già preconfigurato per un output di logging
+ragionevole su <code>os.Stderr</code>. Metodi aggiuntivi come
+<code>Fatal*</code> o <code>Panic*</code> usciranno dal programma
+dopo il logging.</p>
 
           </td>
           <td class="code leading">
@@ -97,12 +97,12 @@ logging.</p>
         
         <tr>
           <td class="docs">
-            <p>Loggers can be configured with <em>flags</em> to set
-their output format. By default, the standard
-logger has the <code>log.Ldate</code> and <code>log.Ltime</code> flags
-set, and these are collected in <code>log.LstdFlags</code>.
-We can change its flags to emit time with
-microsecond accuracy, for example.</p>
+            <p>I logger possono essere configurati con <em>flag</em>
+per impostare il loro formato di output. Di default,
+il logger standard ha i flag <code>log.Ldate</code> e
+<code>log.Ltime</code> impostati, e questi sono raccolti
+in <code>log.LstdFlags</code>. Possiamo cambiare i suoi flag
+per emettere il tempo con precisione microsecondo.</p>
 
           </td>
           <td class="code leading">
@@ -114,8 +114,8 @@ microsecond accuracy, for example.</p>
         
         <tr>
           <td class="docs">
-            <p>It also supports emitting the file name and
-line from which the <code>log</code> function is called.</p>
+            <p>Supporta anche l&rsquo;emissione del nome file e
+della linea da cui la funzione <code>log</code> è chiamata.</p>
 
           </td>
           <td class="code leading">
@@ -127,10 +127,10 @@ line from which the <code>log</code> function is called.</p>
         
         <tr>
           <td class="docs">
-            <p>It may be useful to create a custom logger and
-pass it around. When creating a new logger, we
-can set a <em>prefix</em> to distinguish its output
-from other loggers.</p>
+            <p>Può essere utile creare un logger personalizzato
+e passarlo in giro. Quando creiamo un nuovo logger,
+possiamo impostare un <em>prefisso</em> per distinguere
+il suo output da altri logger.</p>
 
           </td>
           <td class="code leading">
@@ -142,9 +142,9 @@ from other loggers.</p>
         
         <tr>
           <td class="docs">
-            <p>We can set the prefix
-on existing loggers (including the standard one)
-with the <code>SetPrefix</code> method.</p>
+            <p>Possiamo impostare il prefisso
+sui logger esistenti (incluso quello standard)
+con il metodo <code>SetPrefix</code>.</p>
 
           </td>
           <td class="code leading">
@@ -156,8 +156,8 @@ with the <code>SetPrefix</code> method.</p>
         
         <tr>
           <td class="docs">
-            <p>Loggers can have custom output targets;
-any <code>io.Writer</code> works.</p>
+            <p>I logger possono avere target di output personalizzati;
+qualsiasi <code>io.Writer</code> funziona.</p>
 
           </td>
           <td class="code leading">
@@ -169,7 +169,7 @@ any <code>io.Writer</code> works.</p>
         
         <tr>
           <td class="docs">
-            <p>This call writes the log output into <code>buf</code>.</p>
+            <p>Questa chiamata scrive l&rsquo;output del log in <code>buf</code>.</p>
 
           </td>
           <td class="code leading">
@@ -180,7 +180,7 @@ any <code>io.Writer</code> works.</p>
         
         <tr>
           <td class="docs">
-            <p>This will actually show it on standard output.</p>
+            <p>Questo lo mostrerà effettivamente sull&rsquo;output standard.</p>
 
           </td>
           <td class="code leading">
@@ -191,9 +191,9 @@ any <code>io.Writer</code> works.</p>
         
         <tr>
           <td class="docs">
-            <p>The <code>slog</code> package provides
-<em>structured</em> log output. For example, logging
-in JSON format is straightforward.</p>
+            <p>Il pacchetto <code>slog</code> fornisce output di log
+<em>strutturato</em>. Per esempio, il logging in
+formato JSON è semplice.</p>
 
           </td>
           <td class="code leading">
@@ -206,9 +206,9 @@ in JSON format is straightforward.</p>
         
         <tr>
           <td class="docs">
-            <p>In addition to the message, <code>slog</code> output can
-contain an arbitrary number of key=value
-pairs.</p>
+            <p>Oltre al messaggio, l&rsquo;output di <code>slog</code> può
+contenere un numero arbitrario di coppie
+chiave=valore.</p>
 
           </td>
           <td class="code">
@@ -224,8 +224,8 @@ pairs.</p>
         
         <tr>
           <td class="docs">
-            <p>Sample output; the date and time
-emitted will depend on when the example ran.</p>
+            <p>Output di esempio; la data e l&rsquo;ora
+emesse dipenderanno da quando l&rsquo;esempio è stato eseguito.</p>
 
           </td>
           <td class="code leading">
@@ -242,9 +242,9 @@ emitted will depend on when the example ran.</p>
         
         <tr>
           <td class="docs">
-            <p>These are wrapped for clarity of presentation
-on the website; in reality they are emitted
-on a single line.</p>
+            <p>Questi sono spezzati per chiarezza di presentazione
+sul sito web; in realtà sono emessi
+su una singola linea.</p>
 
           </td>
           <td class="code">
@@ -261,12 +261,13 @@ on a single line.</p>
       
       
       <p class="next">
-        Next example: <a href="http-client" rel="next">HTTP Client</a>.
+        Prossimo esempio: <a href="client-http" rel="next">Client HTTP</a>.
       </p>
       
 
     <p class="footer">
-      by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> and <a href="https://eli.thegreenplace.net">Eli Bendersky</a> | <a href="https://github.com/mmcgrana/gobyexample">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
     </p>
 
     </div>

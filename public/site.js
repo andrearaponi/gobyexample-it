@@ -15,3 +15,114 @@ var clipboard = new Clipboard('.copy', {
         return codeLines.filter(function(cL) { return cL != '' }).join("\n").replace(/\n$/, '');
     }
 });
+
+// Track which buttons are currently animating
+var animatingButtons = new Set();
+
+clipboard.on('success', function(e) {
+    // Prevent multiple clicks during animation
+    if (animatingButtons.has(e.trigger)) {
+        return;
+    }
+
+    // Mark button as animating
+    animatingButtons.add(e.trigger);
+
+    // Show visual feedback with green checkmark and popup
+    var originalSrc = e.trigger.src;
+
+    // Create green checkmark SVG as data URL
+    e.trigger.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzLjUgNEw2IDExLjVMMi41IDgiIHN0cm9rZT0iIzIyYzU1ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+';
+
+    // Create and show popup
+    var popup = document.createElement('div');
+    popup.className = 'copy-popup';
+    popup.textContent = 'Copiato!';
+
+    // Position popup above the button, centered
+    var rect = e.trigger.getBoundingClientRect();
+    popup.style.left = (rect.left + rect.width / 2) + 'px';
+    popup.style.top = (rect.top - 35 + window.scrollY) + 'px';
+    // Transform is handled by CSS classes
+
+    document.body.appendChild(popup);
+
+    // Show popup with animation
+    setTimeout(function() {
+        popup.classList.add('show');
+    }, 10);
+
+    // Restore everything after 1 second
+    setTimeout(function() {
+        e.trigger.src = originalSrc;
+
+        // Hide and remove popup
+        popup.classList.remove('show');
+        setTimeout(function() {
+            if (popup.parentNode) {
+                document.body.removeChild(popup);
+            }
+            // Remove button from animating set after complete cleanup
+            animatingButtons.delete(e.trigger);
+        }, 200);
+    }, 1000);
+
+    e.clearSelection();
+});
+
+clipboard.on('error', function(e) {
+    // Show error feedback
+    var originalTitle = e.trigger.title;
+    e.trigger.title = 'Errore nella copia';
+
+    // Restore after 2 seconds
+    setTimeout(function() {
+        e.trigger.title = originalTitle || 'Copia negli appunti';
+    }, 2000);
+});
+
+// Theme toggle functionality
+(function() {
+    var themeToggle = document.getElementById('theme-toggle');
+    var themeIcon = document.getElementById('theme-icon');
+    var body = document.body;
+
+    if (!themeToggle || !themeIcon) return;
+
+    // Check saved theme preference or default to system preference
+    var savedTheme = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Initialize theme
+    function setTheme(theme) {
+        if (theme === 'dark') {
+            body.classList.add('dark');
+            body.classList.remove('light');
+            themeIcon.textContent = '☀️';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            body.classList.add('light');
+            body.classList.remove('dark');
+            themeIcon.textContent = '🌙';
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    // Set initial theme
+    if (savedTheme) {
+        setTheme(savedTheme);
+    } else if (prefersDark) {
+        setTheme('dark');
+    } else {
+        setTheme('light');
+    }
+
+    // Toggle theme on button click
+    themeToggle.addEventListener('click', function() {
+        if (body.classList.contains('dark')) {
+            setTheme('light');
+        } else {
+            setTheme('dark');
+        }
+    });
+})();

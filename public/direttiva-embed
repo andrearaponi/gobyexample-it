@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Direttiva Embed</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'file-e-directory-temporanei';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'testing-e-benchmarking';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="direttiva-embed">
+      <h2><a href="./">Go by Example</a>: Direttiva Embed <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><code>//go:embed</code> è una <a href="https://pkg.go.dev/cmd/compile#hdr-Compiler_Directives">direttiva del
+compilatore</a> che
+permette ai programmi di includere file e cartelle arbitrari nel binario Go al
+momento della build. Leggi di più sulla direttiva embed
+<a href="https://pkg.go.dev/embed">qui</a>.</p>
+
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/25MumD36zNY"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Importa il pacchetto <code>embed</code>; se non usi identificatori esportati
+da questo pacchetto, puoi fare un import vuoto con <code>_ &quot;embed&quot;</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;embed&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Le direttive <code>embed</code> accettano percorsi relativi alla directory contenente il
+file sorgente Go. Questa direttiva incorpora il contenuto del file nella
+variabile <code>string</code> che la segue immediatamente.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="c1">//go:embed folder/single_file.txt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">fileString</span> <span class="kt">string</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Oppure incorpora il contenuto del file in un <code>[]byte</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="c1">//go:embed folder/single_file.txt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">fileByte</span> <span class="p">[]</span><span class="kt">byte</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo anche incorporare file multipli o anche cartelle con wildcards. Questo usa
+una variabile del <a href="https://pkg.go.dev/embed#FS">tipo embed.FS</a>, che
+implementa un semplice file system virtuale.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="c1">//go:embed folder/single_file.txt
+</span></span></span><span class="line"><span class="cl"><span class="c1">//go:embed folder/*.hash
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">folder</span> <span class="nx">embed</span><span class="p">.</span><span class="nx">FS</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Stampa il contenuto di <code>single_file.txt</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="nx">fileString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">fileByte</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Recupera alcuni file dalla cartella incorporata.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">content1</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">folder</span><span class="p">.</span><span class="nf">ReadFile</span><span class="p">(</span><span class="s">&#34;folder/file1.hash&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">content1</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">content2</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">folder</span><span class="p">.</span><span class="nf">ReadFile</span><span class="p">(</span><span class="s">&#34;folder/file2.hash&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">content2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Usa questi comandi per eseguire l&rsquo;esempio.
+(Nota: a causa delle limitazioni del go playground,
+questo esempio può essere eseguito solo sulla tua macchina locale.)</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> mkdir -p folder
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> echo &#34;hello go&#34; &gt; folder/single_file.txt
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> echo &#34;123&#34; &gt; folder/file1.hash
+</span></span><span class="line"><span class="cl"><span class="gp">$</span> echo &#34;456&#34; &gt; folder/file2.hash</span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run direttiva-embed.go
+</span></span><span class="line"><span class="cl"><span class="go">hello go
+</span></span></span><span class="line"><span class="cl"><span class="go">hello go
+</span></span></span><span class="line"><span class="cl"><span class="go">123
+</span></span></span><span class="line"><span class="cl"><span class="go">456</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="testing-e-benchmarking" rel="next">Testing e Benchmarking</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"embed\"\u000A)\u000A');codeLines.push('//go:embed folder/single_file.txt\u000Avar fileString string\u000A');codeLines.push('//go:embed folder/single_file.txt\u000Avar fileByte []byte\u000A');codeLines.push('//go:embed folder/single_file.txt\u000A//go:embed folder/*.hash\u000Avar folder embed.FS\u000A');codeLines.push('func main() {\u000A');codeLines.push('    print(fileString)\u000A    print(string(fileByte))\u000A');codeLines.push('    content1, _ :\u003D folder.ReadFile(\"folder/file1.hash\")\u000A    print(string(content1))\u000A');codeLines.push('    content2, _ :\u003D folder.ReadFile(\"folder/file2.hash\")\u000A    print(string(content2))\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

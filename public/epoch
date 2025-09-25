@@ -17,23 +17,23 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'time-formatting-parsing';
+              window.location.href = 'formattazione-parsing-time';
           }
           
       }
   </script>
   <body>
     <div class="example" id="epoch">
-      <h2><a href="./">Go by Example</a>: Epoch</h2>
+      <h2><a href="./">Go by Example</a>: Epoch <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>A common requirement in programs is getting the number
-of seconds, milliseconds, or nanoseconds since the
-<a href="https://en.wikipedia.org/wiki/Unix_time">Unix epoch</a>.
-Here&rsquo;s how to do it in Go.</p>
+            <p>Un requisito comune nei programmi è ottenere il numero
+di secondi, millisecondi, o nanosecondi dall&rsquo;
+<a href="https://en.wikipedia.org/wiki/Unix_time">epoch Unix</a>.
+Ecco come farlo in Go.</p>
 
           </td>
           <td class="code empty leading">
@@ -47,7 +47,7 @@ Here&rsquo;s how to do it in Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/lRmD1EWHHPz"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/DyiiNW4PZY1"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -77,9 +77,9 @@ Here&rsquo;s how to do it in Go.</p>
         
         <tr>
           <td class="docs">
-            <p>Use <code>time.Now</code> with <code>Unix</code>, <code>UnixMilli</code> or <code>UnixNano</code>
-to get elapsed time since the Unix epoch in seconds,
-milliseconds or nanoseconds, respectively.</p>
+            <p>Usa <code>time.Now</code> con <code>Unix</code>, <code>UnixMilli</code> o <code>UnixNano</code>
+per ottenere il tempo trascorso dall&rsquo;epoch Unix in secondi,
+millisecondi o nanosecondi, rispettivamente.</p>
 
           </td>
           <td class="code leading">
@@ -103,8 +103,8 @@ milliseconds or nanoseconds, respectively.</p>
         
         <tr>
           <td class="docs">
-            <p>You can also convert integer seconds or nanoseconds
-since the epoch into the corresponding <code>time</code>.</p>
+            <p>Puoi anche convertire secondi o nanosecondi interi
+dall&rsquo;epoch nel <code>time</code> corrispondente.</p>
 
           </td>
           <td class="code">
@@ -137,8 +137,8 @@ since the epoch into the corresponding <code>time</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Next we&rsquo;ll look at another time-related task: time
-parsing and formatting.</p>
+            <p>Prossimamente esamineremo un altro compito relativo al tempo: parsing
+e formattazione del tempo.</p>
 
           </td>
           <td class="code empty">
@@ -151,12 +151,13 @@ parsing and formatting.</p>
       
       
       <p class="next">
-        Next example: <a href="time-formatting-parsing" rel="next">Time Formatting / Parsing</a>.
+        Prossimo esempio: <a href="formattazione-parsing-time" rel="next">Formattazione Parsing Time</a>.
       </p>
       
 
     <p class="footer">
-      by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> and <a href="https://eli.thegreenplace.net">Eli Bendersky</a> | <a href="https://github.com/mmcgrana/gobyexample">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
     </p>
 
     </div>

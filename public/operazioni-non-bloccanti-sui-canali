@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Operazioni Non-Bloccanti sui Canali</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'timeout';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'chiusura-dei-canali';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="operazioni-non-bloccanti-sui-canali">
+      <h2><a href="./">Go by Example</a>: Operazioni Non-Bloccanti sui Canali <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Gli invii e le ricezioni di base sui canali sono bloccanti.
+Tuttavia, possiamo usare <code>select</code> con una clausola <code>default</code> per
+implementare invii <em>non-bloccanti</em>, ricezioni, e persino
+<code>select</code> multi-way non-bloccanti.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/uyc543YzTma"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">messages</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">signals</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">bool</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ecco una ricezione non-bloccante. Se un valore è
+disponibile su <code>messages</code> allora <code>select</code> prenderà
+il <code>case</code> <code>&lt;-messages</code> con quel valore. Se no
+prenderà immediatamente il <code>case</code> <code>default</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">msg</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">messages</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;received message&#34;</span><span class="p">,</span> <span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;no message received&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Un invio non-bloccante funziona similarmente. Qui <code>msg</code>
+non può essere inviato al canale <code>messages</code>, perché
+il canale non ha buffer e non c&rsquo;è nessun ricevente.
+Quindi viene selezionato il <code>case</code> <code>default</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">msg</span> <span class="o">:=</span> <span class="s">&#34;hi&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">messages</span> <span class="o">&lt;-</span> <span class="nx">msg</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;sent message&#34;</span><span class="p">,</span> <span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;no message sent&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo usare multipli <code>case</code> sopra la clausola <code>default</code>
+per implementare un select multi-way non-bloccante.
+Qui proviamo ricezioni non-bloccanti sia su
+<code>messages</code> che su <code>signals</code>.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">msg</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">messages</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;received message&#34;</span><span class="p">,</span> <span class="nx">msg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">sig</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">signals</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;received signal&#34;</span><span class="p">,</span> <span class="nx">sig</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;no activity&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run operazioni-non-bloccanti-sui-canali.go 
+</span></span><span class="line"><span class="cl"><span class="go">no message received
+</span></span></span><span class="line"><span class="cl"><span class="go">no message sent
+</span></span></span><span class="line"><span class="cl"><span class="go">no activity</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="chiusura-dei-canali" rel="next">Chiusura dei Canali</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A    messages :\u003D make(chan string)\u000A    signals :\u003D make(chan bool)\u000A');codeLines.push('    select {\u000A    case msg :\u003D \u003C-messages:\u000A        fmt.Println(\"received message\", msg)\u000A    default:\u000A        fmt.Println(\"no message received\")\u000A    }\u000A');codeLines.push('    msg :\u003D \"hi\"\u000A    select {\u000A    case messages \u003C- msg:\u000A        fmt.Println(\"sent message\", msg)\u000A    default:\u000A        fmt.Println(\"no message sent\")\u000A    }\u000A');codeLines.push('    select {\u000A    case msg :\u003D \u003C-messages:\u000A        fmt.Println(\"received message\", msg)\u000A    case sig :\u003D \u003C-signals:\u000A        fmt.Println(\"received signal\", sig)\u000A    default:\u000A        fmt.Println(\"no activity\")\u000A    }\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

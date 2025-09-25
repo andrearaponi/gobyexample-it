@@ -1,6 +1,6 @@
-// Go offers built-in support for JSON encoding and
-// decoding, including to and from built-in and custom
-// data types.
+// Go offre supporto integrato per la codifica e
+// decodifica JSON, incluso da e verso tipi di dati
+// built-in e personalizzati.
 
 package main
 
@@ -11,15 +11,15 @@ import (
 	"strings"
 )
 
-// We'll use these two structs to demonstrate encoding and
-// decoding of custom types below.
+// Useremo questi due struct per dimostrare la codifica e
+// decodifica di tipi personalizzati qui sotto.
 type response1 struct {
 	Page   int
 	Fruits []string
 }
 
-// Only exported fields will be encoded/decoded in JSON.
-// Fields must start with capital letters to be exported.
+// Solo i campi esportati saranno codificati/decodificati in JSON.
+// I campi devono iniziare con lettere maiuscole per essere esportati.
 type response2 struct {
 	Page   int      `json:"page"`
 	Fruits []string `json:"fruits"`
@@ -27,9 +27,9 @@ type response2 struct {
 
 func main() {
 
-	// First we'll look at encoding basic data types to
-	// JSON strings. Here are some examples for atomic
-	// values.
+	// Prima esamineremo la codifica dei tipi di dati base in
+	// stringhe JSON. Ecco alcuni esempi per valori
+	// atomici.
 	bolB, _ := json.Marshal(true)
 	fmt.Println(string(bolB))
 
@@ -42,8 +42,8 @@ func main() {
 	strB, _ := json.Marshal("gopher")
 	fmt.Println(string(strB))
 
-	// And here are some for slices and maps, which encode
-	// to JSON arrays and objects as you'd expect.
+	// E qui ne abbiamo alcuni per slice e mappe, che codificano
+	// in array e oggetti JSON come ti aspetteresti.
 	slcD := []string{"apple", "peach", "pear"}
 	slcB, _ := json.Marshal(slcD)
 	fmt.Println(string(slcB))
@@ -52,79 +52,79 @@ func main() {
 	mapB, _ := json.Marshal(mapD)
 	fmt.Println(string(mapB))
 
-	// The JSON package can automatically encode your
-	// custom data types. It will only include exported
-	// fields in the encoded output and will by default
-	// use those names as the JSON keys.
+	// Il pacchetto JSON può codificare automaticamente i tuoi
+	// tipi di dati personalizzati. Includerà solo i campi esportati
+	// nell'output codificato e userà per default
+	// quei nomi come chiavi JSON.
 	res1D := &response1{
 		Page:   1,
 		Fruits: []string{"apple", "peach", "pear"}}
 	res1B, _ := json.Marshal(res1D)
 	fmt.Println(string(res1B))
 
-	// You can use tags on struct field declarations
-	// to customize the encoded JSON key names. Check the
-	// definition of `response2` above to see an example
-	// of such tags.
+	// Puoi usare tag nelle dichiarazioni dei campi struct
+	// per personalizzare i nomi delle chiavi JSON codificate. Controlla la
+	// definizione di `response2` sopra per vedere un esempio
+	// di tali tag.
 	res2D := &response2{
 		Page:   1,
 		Fruits: []string{"apple", "peach", "pear"}}
 	res2B, _ := json.Marshal(res2D)
 	fmt.Println(string(res2B))
 
-	// Now let's look at decoding JSON data into Go
-	// values. Here's an example for a generic data
-	// structure.
+	// Ora esaminiamo la decodifica dei dati JSON in valori
+	// Go. Ecco un esempio per una struttura dati
+	// generica.
 	byt := []byte(`{"num":6.13,"strs":["a","b"]}`)
 
-	// We need to provide a variable where the JSON
-	// package can put the decoded data. This
-	// `map[string]interface{}` will hold a map of strings
-	// to arbitrary data types.
+	// Dobbiamo fornire una variabile dove il pacchetto JSON
+	// può mettere i dati decodificati. Questa
+	// `map[string]interface{}` conterrà una mappa di stringhe
+	// a tipi di dati arbitrari.
 	var dat map[string]interface{}
 
-	// Here's the actual decoding, and a check for
-	// associated errors.
+	// Ecco la decodifica vera e propria, e un controllo per
+	// errori associati.
 	if err := json.Unmarshal(byt, &dat); err != nil {
 		panic(err)
 	}
 	fmt.Println(dat)
 
-	// In order to use the values in the decoded map,
-	// we'll need to convert them to their appropriate type.
-	// For example here we convert the value in `num` to
-	// the expected `float64` type.
+	// Per usare i valori nella mappa decodificata,
+	// dovremo convertirli al loro tipo appropriato.
+	// Per esempio qui convertiamo il valore in `num` al
+	// tipo `float64` atteso.
 	num := dat["num"].(float64)
 	fmt.Println(num)
 
-	// Accessing nested data requires a series of
-	// conversions.
+	// Accedere a dati annidati richiede una serie di
+	// conversioni.
 	strs := dat["strs"].([]interface{})
 	str1 := strs[0].(string)
 	fmt.Println(str1)
 
-	// We can also decode JSON into custom data types.
-	// This has the advantages of adding additional
-	// type-safety to our programs and eliminating the
-	// need for type assertions when accessing the decoded
-	// data.
+	// Possiamo anche decodificare JSON in tipi di dati personalizzati.
+	// Questo ha i vantaggi di aggiungere ulteriore
+	// type-safety ai nostri programmi ed eliminare il
+	// bisogno di type assertion quando accediamo ai dati
+	// decodificati.
 	str := `{"page": 1, "fruits": ["apple", "peach"]}`
 	res := response2{}
 	json.Unmarshal([]byte(str), &res)
 	fmt.Println(res)
 	fmt.Println(res.Fruits[0])
 
-	// In the examples above we always used bytes and
-	// strings as intermediates between the data and
-	// JSON representation on standard out. We can also
-	// stream JSON encodings directly to `os.Writer`s like
-	// `os.Stdout` or even HTTP response bodies.
+	// Negli esempi sopra abbiamo sempre usato byte e
+	// stringhe come intermediari tra i dati e la
+	// rappresentazione JSON su standard out. Possiamo anche
+	// fare stream di codifiche JSON direttamente a `os.Writer` come
+	// `os.Stdout` o anche body di risposte HTTP.
 	enc := json.NewEncoder(os.Stdout)
 	d := map[string]int{"apple": 5, "lettuce": 7}
 	enc.Encode(d)
 
-	// Streaming reads from `os.Reader`s like `os.Stdin`
-	// or HTTP request bodies is done with `json.Decoder`.
+	// Le letture in streaming da `os.Reader` come `os.Stdin`
+	// o body di richieste HTTP si fanno con `json.Decoder`.
 	dec := json.NewDecoder(strings.NewReader(str))
 	res1 := response2{}
 	dec.Decode(&res1)

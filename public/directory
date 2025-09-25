@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Directory</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'percorsi-file';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'file-e-directory-temporanei';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="directory">
+      <h2><a href="./">Go by Example</a>: Directory <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go ha diverse funzioni utili per lavorare con le
+<em>directory</em> nel file system.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/ginG-rIfe9v"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;io/fs&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;path/filepath&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">check</span><span class="p">(</span><span class="nx">e</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Crea una nuova sotto-directory nella directory
+di lavoro corrente.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Mkdir</span><span class="p">(</span><span class="s">&#34;subdir&#34;</span><span class="p">,</span> <span class="mo">0755</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Quando si creano directory temporanee, è buona
+pratica <code>defer</code> la loro rimozione. <code>os.RemoveAll</code>
+eliminerà un intero albero di directory (simile a
+<code>rm -rf</code>).</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">os</span><span class="p">.</span><span class="nf">RemoveAll</span><span class="p">(</span><span class="s">&#34;subdir&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Funzione di aiuto per creare un nuovo file vuoto.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">createEmptyFile</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">d</span> <span class="o">:=</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">check</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nf">WriteFile</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="mo">0644</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nf">createEmptyFile</span><span class="p">(</span><span class="s">&#34;subdir/file1&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo creare una gerarchia di directory, inclusi
+i genitori con <code>MkdirAll</code>. Questo è simile al
+comando <code>mkdir -p</code> da linea di comando.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">err</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">MkdirAll</span><span class="p">(</span><span class="s">&#34;subdir/parent/child&#34;</span><span class="p">,</span> <span class="mo">0755</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nf">createEmptyFile</span><span class="p">(</span><span class="s">&#34;subdir/parent/file2&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">createEmptyFile</span><span class="p">(</span><span class="s">&#34;subdir/parent/file3&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">createEmptyFile</span><span class="p">(</span><span class="s">&#34;subdir/parent/child/file4&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>ReadDir</code> elenca il contenuto della directory, restituendo uno
+slice di oggetti <code>os.DirEntry</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">c</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">ReadDir</span><span class="p">(</span><span class="s">&#34;subdir/parent&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Listing subdir/parent&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">entry</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">c</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34; &#34;</span><span class="p">,</span> <span class="nx">entry</span><span class="p">.</span><span class="nf">Name</span><span class="p">(),</span> <span class="nx">entry</span><span class="p">.</span><span class="nf">IsDir</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Chdir</code> ci permette di cambiare la directory di lavoro corrente,
+simile a <code>cd</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">err</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Chdir</span><span class="p">(</span><span class="s">&#34;subdir/parent/child&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ora vedremo il contenuto di <code>subdir/parent/child</code>
+quando elenchiamo la directory <em>corrente</em>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">c</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">ReadDir</span><span class="p">(</span><span class="s">&#34;.&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Listing subdir/parent/child&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">entry</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">c</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34; &#34;</span><span class="p">,</span> <span class="nx">entry</span><span class="p">.</span><span class="nf">Name</span><span class="p">(),</span> <span class="nx">entry</span><span class="p">.</span><span class="nf">IsDir</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Torniamo indietro (<code>cd</code>) da dove abbiamo iniziato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">err</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Chdir</span><span class="p">(</span><span class="s">&#34;../../..&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo anche visitare una directory <em>ricorsivamente</em>,
+includendo tutte le sue sotto-directory. <code>WalkDir</code> accetta
+una funzione di callback per gestire ogni file o
+directory visitata.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Visiting subdir&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">err</span> <span class="p">=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">WalkDir</span><span class="p">(</span><span class="s">&#34;subdir&#34;</span><span class="p">,</span> <span class="nx">visit</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>visit</code> viene chiamata per ogni file o directory trovata
+ricorsivamente da <code>filepath.WalkDir</code>.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">visit</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">d</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">DirEntry</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34; &#34;</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nf">IsDir</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run directory.go
+</span></span><span class="line"><span class="cl"><span class="go">Listing subdir/parent
+</span></span></span><span class="line"><span class="cl"><span class="go">  child true
+</span></span></span><span class="line"><span class="cl"><span class="go">  file2 false
+</span></span></span><span class="line"><span class="cl"><span class="go">  file3 false
+</span></span></span><span class="line"><span class="cl"><span class="go">Listing subdir/parent/child
+</span></span></span><span class="line"><span class="cl"><span class="go">  file4 false
+</span></span></span><span class="line"><span class="cl"><span class="go">Visiting subdir
+</span></span></span><span class="line"><span class="cl"><span class="go">  subdir true
+</span></span></span><span class="line"><span class="cl"><span class="go">  subdir/file1 false
+</span></span></span><span class="line"><span class="cl"><span class="go">  subdir/parent true
+</span></span></span><span class="line"><span class="cl"><span class="go">  subdir/parent/child true
+</span></span></span><span class="line"><span class="cl"><span class="go">  subdir/parent/child/file4 false
+</span></span></span><span class="line"><span class="cl"><span class="go">  subdir/parent/file2 false
+</span></span></span><span class="line"><span class="cl"><span class="go">  subdir/parent/file3 false</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="file-e-directory-temporanei" rel="next">File e Directory Temporanei</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"io/fs\"\u000A    \"os\"\u000A    \"path/filepath\"\u000A)\u000A');codeLines.push('func check(e error) {\u000A    if e !\u003D nil {\u000A        panic(e)\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    err :\u003D os.Mkdir(\"subdir\", 0755)\u000A    check(err)\u000A');codeLines.push('    defer os.RemoveAll(\"subdir\")\u000A');codeLines.push('    createEmptyFile :\u003D func(name string) {\u000A        d :\u003D []byte(\"\")\u000A        check(os.WriteFile(name, d, 0644))\u000A    }\u000A');codeLines.push('    createEmptyFile(\"subdir/file1\")\u000A');codeLines.push('    err \u003D os.MkdirAll(\"subdir/parent/child\", 0755)\u000A    check(err)\u000A');codeLines.push('    createEmptyFile(\"subdir/parent/file2\")\u000A    createEmptyFile(\"subdir/parent/file3\")\u000A    createEmptyFile(\"subdir/parent/child/file4\")\u000A');codeLines.push('    c, err :\u003D os.ReadDir(\"subdir/parent\")\u000A    check(err)\u000A');codeLines.push('    fmt.Println(\"Listing subdir/parent\")\u000A    for _, entry :\u003D range c {\u000A        fmt.Println(\" \", entry.Name(), entry.IsDir())\u000A    }\u000A');codeLines.push('    err \u003D os.Chdir(\"subdir/parent/child\")\u000A    check(err)\u000A');codeLines.push('    c, err \u003D os.ReadDir(\".\")\u000A    check(err)\u000A');codeLines.push('    fmt.Println(\"Listing subdir/parent/child\")\u000A    for _, entry :\u003D range c {\u000A        fmt.Println(\" \", entry.Name(), entry.IsDir())\u000A    }\u000A');codeLines.push('    err \u003D os.Chdir(\"../../..\")\u000A    check(err)\u000A');codeLines.push('    fmt.Println(\"Visiting subdir\")\u000A    err \u003D filepath.WalkDir(\"subdir\", visit)\u000A}\u000A');codeLines.push('func visit(path string, d fs.DirEntry, err error) error {\u000A    if err !\u003D nil {\u000A        return err\u000A    }\u000A    fmt.Println(\" \", path, d.IsDir())\u000A    return nil\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

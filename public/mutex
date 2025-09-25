@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Mutex</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'contatori-atomici';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'goroutine-con-stato';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="mutex">
+      <h2><a href="./">Go by Example</a>: Mutex <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Nell&rsquo;esempio precedente abbiamo visto come gestire semplici
+stati di contatori usando <a href="contatori-atomici">operazioni atomiche</a>.
+Per stati più complessi possiamo usare un <a href="https://en.wikipedia.org/wiki/Mutual_exclusion"><em>mutex</em></a>
+per accedere ai dati in modo sicuro attraverso più goroutine.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/d_VcbgPi5kO"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Container contiene una mappa di contatori; dato che vogliamo
+aggiornarla simultaneamente da più goroutine, aggiungiamo
+un <code>Mutex</code> per sincronizzare l&rsquo;accesso.
+Nota che i mutex non devono essere copiati, quindi se questa
+<code>struct</code> viene passata in giro, dovrebbe essere fatto tramite
+puntatore.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">Container</span> <span class="kd">struct</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">mu</span>       <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">counters</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Blocchiamo il mutex prima di accedere a <code>counters</code>; lo sblocchiamo
+alla fine della funzione usando un&rsquo;istruzione <a href="defer">defer</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">Container</span><span class="p">)</span> <span class="nf">inc</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">c</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">c</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">c</span><span class="p">.</span><span class="nx">counters</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nota che il valore zero di un mutex è utilizzabile così com&rsquo;è, quindi
+non è richiesta alcuna inizializzazione qui.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">c</span> <span class="o">:=</span> <span class="nx">Container</span><span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">        <span class="nx">counters</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&#34;a&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#34;b&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questa funzione incrementa un contatore nominato
+in un ciclo.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">doIncrement</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">n</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="k">range</span> <span class="nx">n</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">c</span><span class="p">.</span><span class="nf">inc</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Eseguiamo diverse goroutine simultaneamente; nota
+che tutte accedono allo stesso <code>Container</code>,
+e due di esse accedono allo stesso contatore.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">wg</span><span class="p">.</span><span class="nf">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">doIncrement</span><span class="p">(</span><span class="s">&#34;a&#34;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">wg</span><span class="p">.</span><span class="nf">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">doIncrement</span><span class="p">(</span><span class="s">&#34;a&#34;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">wg</span><span class="p">.</span><span class="nf">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">doIncrement</span><span class="p">(</span><span class="s">&#34;b&#34;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Aspettiamo che le goroutine finiscano</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">counters</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Eseguendo il programma vediamo che i contatori
+sono stati aggiornati come previsto.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run mutex.go
+</span></span><span class="line"><span class="cl"><span class="go">map[a:20000 b:10000]</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Successivamente vedremo come implementare questo stesso compito
+di gestione dello stato usando solo goroutine e canali.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="goroutine-con-stato" rel="next">Goroutine con Stato</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"sync\"\u000A)\u000A');codeLines.push('type Container struct {\u000A    mu       sync.Mutex\u000A    counters map[string]int\u000A}\u000A');codeLines.push('func (c *Container) inc(name string) {\u000A');codeLines.push('    c.mu.Lock()\u000A    defer c.mu.Unlock()\u000A    c.counters[name]++\u000A}\u000A');codeLines.push('func main() {\u000A    c :\u003D Container{\u000A');codeLines.push('        counters: map[string]int{\"a\": 0, \"b\": 0},\u000A    }\u000A');codeLines.push('    var wg sync.WaitGroup\u000A');codeLines.push('    doIncrement :\u003D func(name string, n int) {\u000A        for range n {\u000A            c.inc(name)\u000A        }\u000A    }\u000A');codeLines.push('    wg.Go(func() {\u000A        doIncrement(\"a\", 10000)\u000A    })\u000A');codeLines.push('    wg.Go(func() {\u000A        doIncrement(\"a\", 10000)\u000A    })\u000A');codeLines.push('    wg.Go(func() {\u000A        doIncrement(\"b\", 10000)\u000A    })\u000A');codeLines.push('    wg.Wait()\u000A    fmt.Println(c.counters)\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

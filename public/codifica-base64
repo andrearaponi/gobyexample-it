@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Codifica Base64</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'hash-sha256';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'lettura-file';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="codifica-base64">
+      <h2><a href="./">Go by Example</a>: Codifica Base64 <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go fornisce supporto integrato per la <a href="https://en.wikipedia.org/wiki/Base64">codifica/decodifica
+base64</a>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/Y3zGp2MYYkD"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questa sintassi importa il pacchetto <code>encoding/base64</code> con
+il nome <code>b64</code> invece del default <code>base64</code>. Ci farà
+risparmiare spazio qui sotto.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">b64</span> <span class="s">&#34;encoding/base64&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ecco la <code>string</code> che codificheremo/decodificheremo.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">data</span> <span class="o">:=</span> <span class="s">&#34;abc123!?$*&amp;()&#39;-=@~&#34;</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go supporta sia base64 standard che compatibile con URL.
+Ecco come codificare usando l&rsquo;encoder standard.
+L&rsquo;encoder richiede un <code>[]byte</code> quindi convertiamo
+la nostra <code>string</code> a quel tipo.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">sEnc</span> <span class="o">:=</span> <span class="nx">b64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nf">EncodeToString</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">sEnc</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>La decodifica può restituire un errore, che puoi controllare
+se non sai già che l&rsquo;input sia
+ben formato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">sDec</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">b64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nf">DecodeString</span><span class="p">(</span><span class="nx">sEnc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">sDec</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">()</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questo codifica/decodifica usando un formato base64
+compatibile con URL.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">uEnc</span> <span class="o">:=</span> <span class="nx">b64</span><span class="p">.</span><span class="nx">URLEncoding</span><span class="p">.</span><span class="nf">EncodeToString</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">uEnc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">uDec</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">b64</span><span class="p">.</span><span class="nx">URLEncoding</span><span class="p">.</span><span class="nf">DecodeString</span><span class="p">(</span><span class="nx">uEnc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">uDec</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>La stringa codifica a valori leggermente diversi con gli
+encoder base64 standard e URL (<code>+</code> finale vs <code>-</code>)
+ma entrambi decodificano alla stringa originale come desiderato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run codifica-base64.go
+</span></span><span class="line"><span class="cl"><span class="go">YWJjMTIzIT8kKiYoKSctPUB+
+</span></span></span><span class="line"><span class="cl"><span class="go">abc123!?$*&amp;()&#39;-=@~</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="go">YWJjMTIzIT8kKiYoKSctPUB-
+</span></span></span><span class="line"><span class="cl"><span class="go">abc123!?$*&amp;()&#39;-=@~</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="lettura-file" rel="next">Lettura File</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    b64 \"encoding/base64\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    data :\u003D \"abc123!?$*\u0026()\'-\u003D@~\"\u000A');codeLines.push('    sEnc :\u003D b64.StdEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(sEnc)\u000A');codeLines.push('    sDec, _ :\u003D b64.StdEncoding.DecodeString(sEnc)\u000A    fmt.Println(string(sDec))\u000A    fmt.Println()\u000A');codeLines.push('    uEnc :\u003D b64.URLEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(uEnc)\u000A    uDec, _ :\u003D b64.URLEncoding.DecodeString(uEnc)\u000A    fmt.Println(string(uDec))\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

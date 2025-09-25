@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Esecuzione Processi</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'creazione-processi';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'segnali';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="esecuzione-processi">
+      <h2><a href="./">Go by Example</a>: Esecuzione Processi <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Nell&rsquo;esempio precedente abbiamo visto come
+<a href="creazione-processi">creare processi esterni</a>. Lo
+facciamo quando abbiamo bisogno di un processo esterno accessibile a
+un processo Go in esecuzione. A volte vogliamo solo
+sostituire completamente il processo Go corrente con un altro
+(forse non-Go). Per farlo useremo l&rsquo;implementazione di Go
+della classica funzione
+<a href="https://en.wikipedia.org/wiki/Exec_(operating_system)"><code>exec</code></a>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/GFYvP3F7Uu5"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os/exec&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;syscall&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per il nostro esempio eseguiremo <code>ls</code>. Go richiede un
+percorso assoluto al binario che vogliamo eseguire, quindi
+useremo <code>exec.LookPath</code> per trovarlo (probabilmente
+<code>/bin/ls</code>).</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">binary</span><span class="p">,</span> <span class="nx">lookErr</span> <span class="o">:=</span> <span class="nx">exec</span><span class="p">.</span><span class="nf">LookPath</span><span class="p">(</span><span class="s">&#34;ls&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">lookErr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">lookErr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Exec</code> richiede argomenti in forma di slice (invece
+di una grande stringa). Daremo a <code>ls</code> alcuni
+argomenti comuni. Nota che il primo argomento dovrebbe
+essere il nome del programma.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">args</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;ls&#34;</span><span class="p">,</span> <span class="s">&#34;-a&#34;</span><span class="p">,</span> <span class="s">&#34;-l&#34;</span><span class="p">,</span> <span class="s">&#34;-h&#34;</span><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Exec</code> ha anche bisogno di un set di <a href="variabili-ambiente">variabili d&rsquo;ambiente</a>
+da usare. Qui forniamo semplicemente il nostro
+ambiente corrente.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">env</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Environ</span><span class="p">()</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ecco la vera chiamata a <code>syscall.Exec</code>. Se questa chiamata ha
+successo, l&rsquo;esecuzione del nostro processo finirà
+qui e sarà sostituita dal processo <code>/bin/ls -a -l -h</code>.
+Se c&rsquo;è un errore otterremo un valore
+di ritorno.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">execErr</span> <span class="o">:=</span> <span class="nx">syscall</span><span class="p">.</span><span class="nf">Exec</span><span class="p">(</span><span class="nx">binary</span><span class="p">,</span> <span class="nx">args</span><span class="p">,</span> <span class="nx">env</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">execErr</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">execErr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Quando eseguiamo il nostro programma viene sostituito da <code>ls</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run esecuzione-processi.go
+</span></span><span class="line"><span class="cl"><span class="go">total 16
+</span></span></span><span class="line"><span class="cl"><span class="go">drwxr-xr-x  4 mark 136B Oct 3 16:29 .
+</span></span></span><span class="line"><span class="cl"><span class="go">drwxr-xr-x 91 mark 3.0K Oct 3 12:50 ..
+</span></span></span><span class="line"><span class="cl"><span class="go">-rw-r--r--  1 mark 1.3K Oct 3 16:28 esecuzione-processi.go</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nota che Go non offre una funzione Unix <code>fork</code>
+classica. Di solito questo non è un problema però, dato che
+avviare goroutine, creare processi e eseguire
+processi copre la maggior parte dei casi d&rsquo;uso per <code>fork</code>.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="segnali" rel="next">Segnali</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"os\"\u000A    \"os/exec\"\u000A    \"syscall\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    binary, lookErr :\u003D exec.LookPath(\"ls\")\u000A    if lookErr !\u003D nil {\u000A        panic(lookErr)\u000A    }\u000A');codeLines.push('    args :\u003D []string{\"ls\", \"-a\", \"-l\", \"-h\"}\u000A');codeLines.push('    env :\u003D os.Environ()\u000A');codeLines.push('    execErr :\u003D syscall.Exec(binary, args, env)\u000A    if execErr !\u003D nil {\u000A        panic(execErr)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

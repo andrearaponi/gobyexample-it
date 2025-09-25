@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Contatori Atomici</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'rate-limiting';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'mutex';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="contatori-atomici">
+      <h2><a href="./">Go by Example</a>: Contatori Atomici <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Il meccanismo primario per gestire lo stato in Go è
+la comunicazione attraverso i canali. L&rsquo;abbiamo visto per esempio
+con i <a href="pool-di-worker">pool di worker</a>. Ci sono però alcune altre
+opzioni per gestire lo stato. Qui vedremo
+l&rsquo;uso del pacchetto <code>sync/atomic</code> per <em>contatori atomici</em>
+accessibili da più goroutine.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/C7WPT7AhaLS"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;sync/atomic&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Useremo un tipo integer atomico per rappresentare il nostro
+contatore (sempre positivo).</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">ops</span> <span class="nx">atomic</span><span class="p">.</span><span class="nx">Uint64</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Un WaitGroup ci aiuterà ad attendere che tutte le goroutine
+finiscano il loro lavoro.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Avvieremo 50 goroutine che ognuna incrementa il
+contatore esattamente 1000 volte.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">for</span> <span class="k">range</span> <span class="mi">50</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">wg</span><span class="p">.</span><span class="nf">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="k">range</span> <span class="mi">1000</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per incrementare atomicamente il contatore usiamo <code>Add</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">                <span class="nx">ops</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Aspettiamo fino a quando tutte le goroutine hanno finito.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Qui nessuna goroutine sta scrivendo su &lsquo;ops&rsquo;, ma usando
+<code>Load</code> è sicuro leggere atomicamente un valore anche mentre
+altre goroutine lo stanno (atomicamente) aggiornando.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ops:&#34;</span><span class="p">,</span> <span class="nx">ops</span><span class="p">.</span><span class="nf">Load</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Ci aspettiamo di ottenere esattamente 50.000 operazioni. Se avessimo
+usato un integer non atomico e lo avessimo incrementato con
+<code>ops++</code>, probabilmente otterremmo un numero diverso,
+che cambia tra le esecuzioni, perché le goroutine
+interferirebbe tra loro. Inoltre, otterremmo
+errori di data race quando eseguiamo con il
+flag <code>-race</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run contatori-atomici.go
+</span></span><span class="line"><span class="cl"><span class="go">ops: 50000</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Successivamente vedremo i mutex, un altro strumento per gestire
+lo stato.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="mutex" rel="next">Mutex</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"sync\"\u000A    \"sync/atomic\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var ops atomic.Uint64\u000A');codeLines.push('    var wg sync.WaitGroup\u000A');codeLines.push('    for range 50 {\u000A        wg.Go(func() {\u000A            for range 1000 {\u000A');codeLines.push('                ops.Add(1)\u000A            }\u000A        })\u000A    }\u000A');codeLines.push('    wg.Wait()\u000A');codeLines.push('    fmt.Println(\"ops:\", ops.Load())\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

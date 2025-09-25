@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Hash SHA256</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'parsing-url';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'codifica-base64';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="hash-sha256">
+      <h2><a href="./">Go by Example</a>: Hash SHA256 <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Gli <a href="https://en.wikipedia.org/wiki/SHA-2"><em>hash SHA256</em></a> sono
+frequentemente usati per calcolare identità brevi per blob
+binari o di testo. Per esempio, i certificati TLS/SSL usano SHA256
+per calcolare la firma di un certificato. Ecco come calcolare
+hash SHA256 in Go.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/1uFizb_qE9l"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go implementa diverse funzioni hash in vari
+pacchetti <code>crypto/*</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;crypto/sha256&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">s</span> <span class="o">:=</span> <span class="s">&#34;sha256 this string&#34;</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Qui iniziamo con un nuovo hash.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">h</span> <span class="o">:=</span> <span class="nx">sha256</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Write</code> si aspetta byte. Se hai una stringa <code>s</code>,
+usa <code>[]byte(s)</code> per convertirla in byte.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">h</span><span class="p">.</span><span class="nf">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Questo ottiene il risultato hash finalizzato come slice
+di byte. L&rsquo;argomento di <code>Sum</code> può essere usato per aggiungere
+a una slice di byte esistente: di solito non è necessario.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">bs</span> <span class="o">:=</span> <span class="nx">h</span><span class="p">.</span><span class="nf">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%x\n&#34;</span><span class="p">,</span> <span class="nx">bs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Eseguire il programma calcola l&rsquo;hash e lo stampa in
+formato esadecimale leggibile.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run hash-sha256.go
+</span></span><span class="line"><span class="cl"><span class="go">sha256 this string
+</span></span></span><span class="line"><span class="cl"><span class="go">1af1dfa857bf1d8814fe1af8983c18080019922e557f15a8a...</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Puoi calcolare altri hash usando un pattern simile a
+quello mostrato sopra. Per esempio, per calcolare
+hash SHA512 importa <code>crypto/sha512</code> e usa
+<code>sha512.New()</code>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nota che se hai bisogno di hash crittograficamente sicuri,
+dovresti ricercare attentamente la
+<a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">forza dell&rsquo;hash</a>!</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="codifica-base64" rel="next">Codifica Base64</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"crypto/sha256\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('func main() {\u000A    s :\u003D \"sha256 this string\"\u000A');codeLines.push('    h :\u003D sha256.New()\u000A');codeLines.push('    h.Write([]byte(s))\u000A');codeLines.push('    bs :\u003D h.Sum(nil)\u000A');codeLines.push('    fmt.Println(s)\u000A    fmt.Printf(\"%x\\n\", bs)\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

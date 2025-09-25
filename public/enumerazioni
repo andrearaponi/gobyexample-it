@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Enumerazioni</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'interfacce';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'embedding-di-struct';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="enumerazioni">
+      <h2><a href="./">Go by Example</a>: Enumerazioni <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>I <em>tipi enumerati</em> (enum) sono un caso speciale di
+<a href="https://en.wikipedia.org/wiki/Algebraic_data_type">tipi somma</a>.
+Un enum è un tipo che ha un numero fisso di possibili
+valori, ognuno con un nome distinto. Go non ha un
+tipo enum come funzionalità linguistica distinta, ma gli enum
+sono semplici da implementare usando idiomi linguistici esistenti.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/-hAfx-YclsI"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="s">&#34;fmt&#34;</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Il nostro tipo enum <code>ServerState</code> ha un tipo <code>int</code> sottostante.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">ServerState</span> <span class="kt">int</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>I possibili valori per <code>ServerState</code> sono definiti come
+costanti. La parola chiave speciale <a href="https://go.dev/ref/spec#Iota">iota</a>
+genera valori costanti successivi automaticamente; in questo
+caso 0, 1, 2 e così via.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateIdle</span> <span class="nx">ServerState</span> <span class="p">=</span> <span class="kc">iota</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateConnected</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateError</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateRetrying</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Implementando l&rsquo;interfaccia <a href="https://pkg.go.dev/fmt#Stringer">fmt.Stringer</a>,
+i valori di <code>ServerState</code> possono essere stampati o convertiti
+in stringhe.</p>
+
+<p>Questo può diventare ingombrante se ci sono molti valori possibili. In tali
+casi lo <a href="https://pkg.go.dev/golang.org/x/tools/cmd/stringer">strumento stringer</a>
+può essere usato insieme a <code>go:generate</code> per automatizzare il
+processo. Vedi <a href="https://eli.thegreenplace.net/2021/a-comprehensive-guide-to-go-generate">questo post</a>
+per una spiegazione più lunga.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">stateName</span> <span class="p">=</span> <span class="kd">map</span><span class="p">[</span><span class="nx">ServerState</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateIdle</span><span class="p">:</span>      <span class="s">&#34;idle&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateConnected</span><span class="p">:</span> <span class="s">&#34;connected&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateError</span><span class="p">:</span>     <span class="s">&#34;error&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">StateRetrying</span><span class="p">:</span>  <span class="s">&#34;retrying&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">ss</span> <span class="nx">ServerState</span><span class="p">)</span> <span class="nf">String</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">stateName</span><span class="p">[</span><span class="nx">ss</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Se abbiamo un valore di tipo <code>int</code>, non possiamo passarlo a <code>transition</code> - il
+compilatore si lamenterà per la mancata corrispondenza di tipo. Questo fornisce un certo grado di
+sicurezza dei tipi a tempo di compilazione per gli enum.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">ns</span> <span class="o">:=</span> <span class="nf">transition</span><span class="p">(</span><span class="nx">StateIdle</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ns</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">ns2</span> <span class="o">:=</span> <span class="nf">transition</span><span class="p">(</span><span class="nx">ns</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ns2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>transition emula una transizione di stato per un
+server; prende lo stato esistente e restituisce
+un nuovo stato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">transition</span><span class="p">(</span><span class="nx">s</span> <span class="nx">ServerState</span><span class="p">)</span> <span class="nx">ServerState</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">switch</span> <span class="nx">s</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">StateIdle</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">StateConnected</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">StateConnected</span><span class="p">,</span> <span class="nx">StateRetrying</span><span class="p">:</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Supponiamo di controllare alcuni predicati qui per
+determinare il prossimo stato&hellip;</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">StateIdle</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="nx">StateError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">StateError</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;unknown state: %s&#34;</span><span class="p">,</span> <span class="nx">s</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run enumerazioni.go
+</span></span><span class="line"><span class="cl"><span class="go">connected
+</span></span></span><span class="line"><span class="cl"><span class="go">idle</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="embedding-di-struct" rel="next">Embedding di Struct</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('type ServerState int\u000A');codeLines.push('const (\u000A    StateIdle ServerState \u003D iota\u000A    StateConnected\u000A    StateError\u000A    StateRetrying\u000A)\u000A');codeLines.push('var stateName \u003D map[ServerState]string{\u000A    StateIdle:      \"idle\",\u000A    StateConnected: \"connected\",\u000A    StateError:     \"error\",\u000A    StateRetrying:  \"retrying\",\u000A}\u000A');codeLines.push('func (ss ServerState) String() string {\u000A    return stateName[ss]\u000A}\u000A');codeLines.push('func main() {\u000A    ns :\u003D transition(StateIdle)\u000A    fmt.Println(ns)\u000A');codeLines.push('    ns2 :\u003D transition(ns)\u000A    fmt.Println(ns2)\u000A}\u000A');codeLines.push('func transition(s ServerState) ServerState {\u000A    switch s {\u000A    case StateIdle:\u000A        return StateConnected\u000A    case StateConnected, StateRetrying:\u000A');codeLines.push('        return StateIdle\u000A    case StateError:\u000A        return StateError\u000A    default:\u000A        panic(fmt.Errorf(\"unknown state: %s\", s))\u000A    }\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

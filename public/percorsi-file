@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Percorsi File</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'line-filters';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'directory';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="percorsi-file">
+      <h2><a href="./">Go by Example</a>: Percorsi File <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Il pacchetto <code>filepath</code> fornisce funzioni per parsare
+e costruire <em>percorsi di file</em> in modo portabile
+tra sistemi operativi; <code>dir/file</code> su Linux vs.
+<code>dir\file</code> su Windows, per esempio.</p>
+
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/9SLEFYm4qeJ"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;path/filepath&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;strings&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Join</code> dovrebbe essere usato per costruire percorsi in modo
+portabile. Prende un numero qualsiasi di argomenti
+e costruisce un percorso gerarchico da essi.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">p</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Join</span><span class="p">(</span><span class="s">&#34;dir1&#34;</span><span class="p">,</span> <span class="s">&#34;dir2&#34;</span><span class="p">,</span> <span class="s">&#34;filename&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;p:&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Dovresti sempre usare <code>Join</code> invece di
+concatenare <code>/</code> o <code>\</code> manualmente. Oltre
+a fornire portabilità, <code>Join</code> normalizzerà anche
+i percorsi rimuovendo separatori superflui
+e cambi di directory.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nf">Join</span><span class="p">(</span><span class="s">&#34;dir1//&#34;</span><span class="p">,</span> <span class="s">&#34;filename&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nf">Join</span><span class="p">(</span><span class="s">&#34;dir1/../dir1&#34;</span><span class="p">,</span> <span class="s">&#34;filename&#34;</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Dir</code> e <code>Base</code> possono essere usati per dividere un percorso nella
+directory e nel file. In alternativa, <code>Split</code>
+restituirà entrambi nella stessa chiamata.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Dir(p):&#34;</span><span class="p">,</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Dir</span><span class="p">(</span><span class="nx">p</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Base(p):&#34;</span><span class="p">,</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Base</span><span class="p">(</span><span class="nx">p</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Possiamo controllare se un percorso è assoluto.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nf">IsAbs</span><span class="p">(</span><span class="s">&#34;dir/file&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nf">IsAbs</span><span class="p">(</span><span class="s">&#34;/dir/file&#34;</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">filename</span> <span class="o">:=</span> <span class="s">&#34;config.json&#34;</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Alcuni nomi di file hanno estensioni dopo un punto. Possiamo
+separare l&rsquo;estensione da tali nomi con <code>Ext</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">ext</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Ext</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ext</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per trovare il nome del file con l&rsquo;estensione rimossa,
+usa <code>strings.TrimSuffix</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nf">TrimSuffix</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">ext</span><span class="p">))</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Rel</code> trova un percorso relativo tra una <em>base</em> e un
+<em>target</em>. Restituisce un errore se il target non può
+essere reso relativo alla base.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">rel</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Rel</span><span class="p">(</span><span class="s">&#34;a/b&#34;</span><span class="p">,</span> <span class="s">&#34;a/b/t/file&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">rel</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">rel</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nf">Rel</span><span class="p">(</span><span class="s">&#34;a/b&#34;</span><span class="p">,</span> <span class="s">&#34;a/c/t/file&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">rel</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go run percorsi-file.go
+</span></span><span class="line"><span class="cl"><span class="go">p: dir1/dir2/filename
+</span></span></span><span class="line"><span class="cl"><span class="go">dir1/filename
+</span></span></span><span class="line"><span class="cl"><span class="go">dir1/filename
+</span></span></span><span class="line"><span class="cl"><span class="go">Dir(p): dir1/dir2
+</span></span></span><span class="line"><span class="cl"><span class="go">Base(p): filename
+</span></span></span><span class="line"><span class="cl"><span class="go">false
+</span></span></span><span class="line"><span class="cl"><span class="go">true
+</span></span></span><span class="line"><span class="cl"><span class="go">.json
+</span></span></span><span class="line"><span class="cl"><span class="go">config
+</span></span></span><span class="line"><span class="cl"><span class="go">t/file
+</span></span></span><span class="line"><span class="cl"><span class="go">../c/t/file</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="directory" rel="next">Directory</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"path/filepath\"\u000A    \"strings\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    p :\u003D filepath.Join(\"dir1\", \"dir2\", \"filename\")\u000A    fmt.Println(\"p:\", p)\u000A');codeLines.push('    fmt.Println(filepath.Join(\"dir1//\", \"filename\"))\u000A    fmt.Println(filepath.Join(\"dir1/../dir1\", \"filename\"))\u000A');codeLines.push('    fmt.Println(\"Dir(p):\", filepath.Dir(p))\u000A    fmt.Println(\"Base(p):\", filepath.Base(p))\u000A');codeLines.push('    fmt.Println(filepath.IsAbs(\"dir/file\"))\u000A    fmt.Println(filepath.IsAbs(\"/dir/file\"))\u000A');codeLines.push('    filename :\u003D \"config.json\"\u000A');codeLines.push('    ext :\u003D filepath.Ext(filename)\u000A    fmt.Println(ext)\u000A');codeLines.push('    fmt.Println(strings.TrimSuffix(filename, ext))\u000A');codeLines.push('    rel, err :\u003D filepath.Rel(\"a/b\", \"a/b/t/file\")\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(rel)\u000A');codeLines.push('    rel, err \u003D filepath.Rel(\"a/b\", \"a/c/t/file\")\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(rel)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

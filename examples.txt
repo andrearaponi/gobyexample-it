@@ -1,84 +1,84 @@
 Hello World
-Values
-Variables
-Constants
-For
+Valori
+Variabili
+Costanti
+Ciclo For
 If/Else
 Switch
-Arrays
-Slices
-Maps
-Functions
-Multiple Return Values
-Variadic Functions
+Array
+Slice
+Mappe
+Funzioni
+Valori di Ritorno Multipli
+Funzioni Variadiche
 Closures
-Recursion
-Range over Built-in Types
-Pointers
-Strings and Runes
-Structs
-Methods
-Interfaces
-Enums
-Struct Embedding
-Generics
-Range over Iterators
-Errors
-Custom Errors
-Goroutines
-Channels
-Channel Buffering
-Channel Synchronization
-Channel Directions
+Ricorsione
+Range sui Tipi Built-in
+Puntatori
+Stringhe e Rune
+Struct
+Metodi
+Interfacce
+Enumerazioni
+Embedding di Struct
+Generici
+Range sugli Iteratori
+Errori
+Errori Personalizzati
+Goroutine
+Canali
+Buffer dei Canali
+Sincronizzazione con Canali
+Direzioni dei Canali
 Select
-Timeouts
-Non-Blocking Channel Operations
-Closing Channels
-Range over Channels
-Timers
-Tickers
-Worker Pools
-WaitGroups
+Timeout
+Operazioni Non-Bloccanti sui Canali
+Chiusura dei Canali
+Range sui Canali
+Timer
+Ticker
+Pool di Worker
+WaitGroup
 Rate Limiting
-Atomic Counters
-Mutexes
-Stateful Goroutines
-Sorting
-Sorting by Functions
+Contatori Atomici
+Mutex
+Goroutine con Stato
+Ordinamento
+Ordinamento con Funzioni
 Panic
 Defer
 Recover
-String Functions
-String Formatting
-Text Templates
-Regular Expressions
+Funzioni per Stringhe
+Formattazione Stringhe
+Template di Testo
+Espressioni Regolari
 JSON
 XML
 Time
 Epoch
-Time Formatting / Parsing
-Random Numbers
-Number Parsing
-URL Parsing
-SHA256 Hashes
-Base64 Encoding
-Reading Files
-Writing Files
+Formattazione Parsing Time
+Numeri Casuali
+Parsing Numeri
+Parsing URL
+Hash SHA256
+Codifica Base64
+Lettura File
+Scrittura File
 Line Filters
-File Paths
-Directories
-Temporary Files and Directories
-Embed Directive
-Testing and Benchmarking
-Command-Line Arguments
-Command-Line Flags
-Command-Line Subcommands
-Environment Variables
+Percorsi File
+Directory
+File e Directory Temporanei
+Direttiva Embed
+Testing e Benchmarking
+Argomenti Linea Comando
+Flag Linea Comando
+Sottocomandi Linea Comando
+Variabili Ambiente
 Logging
-HTTP Client
-HTTP Server
+Client HTTP
+Server HTTP
 Context
-Spawning Processes
-Exec'ing Processes
-Signals
+Creazione Processi
+Esecuzione Processi
+Segnali
 Exit

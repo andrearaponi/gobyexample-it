@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go by Example: Sottocomandi Linea Comando</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      window.onkeydown = (e) => {
+          if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+              return;
+          }
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'flag-linea-comando';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'variabili-ambiente';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="sottocomandi-linea-comando">
+      <h2><a href="./">Go by Example</a>: Sottocomandi Linea Comando <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Alcuni tool da linea di comando, come <code>go</code> o <code>git</code>
+hanno molti <em>sottocomandi</em>, ognuno con il proprio
+set di flag. Per esempio, <code>go build</code> e <code>go get</code> sono
+due sottocomandi diversi del tool <code>go</code>.
+Il pacchetto <code>flag</code> ci permette di definire facilmente
+sottocomandi semplici che hanno i propri flag.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="https://go.dev/play/p/8-qyghC78zn"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;flag&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Dichiariamo un sottocomando usando la funzione
+<code>NewFlagSet</code>, e procediamo a definire nuovi flag
+specifici per questo sottocomando.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">fooCmd</span> <span class="o">:=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NewFlagSet</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">,</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">ExitOnError</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fooEnable</span> <span class="o">:=</span> <span class="nx">fooCmd</span><span class="p">.</span><span class="nf">Bool</span><span class="p">(</span><span class="s">&#34;enable&#34;</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="s">&#34;enable&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">fooName</span> <span class="o">:=</span> <span class="nx">fooCmd</span><span class="p">.</span><span class="nf">String</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;name&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per un sottocomando diverso possiamo definire
+flag supportati diversi.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">barCmd</span> <span class="o">:=</span> <span class="nx">flag</span><span class="p">.</span><span class="nf">NewFlagSet</span><span class="p">(</span><span class="s">&#34;bar&#34;</span><span class="p">,</span> <span class="nx">flag</span><span class="p">.</span><span class="nx">ExitOnError</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">barLevel</span> <span class="o">:=</span> <span class="nx">barCmd</span><span class="p">.</span><span class="nf">Int</span><span class="p">(</span><span class="s">&#34;level&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#34;level&#34;</span><span class="p">)</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Il sottocomando è atteso come primo argomento
+del programma.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">)</span> <span class="p">&lt;</span> <span class="mi">2</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;expected &#39;foo&#39; or &#39;bar&#39; subcommands&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Controlla quale sottocomando è invocato.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">switch</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">{</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Per ogni sottocomando, parsiamo i suoi flag
+e abbiamo accesso agli argomenti posizionali finali.</p>
+
+          </td>
+          <td class="code">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl">    <span class="k">case</span> <span class="s">&#34;foo&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fooCmd</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;subcommand &#39;foo&#39;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;  enable:&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">fooEnable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;  name:&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">fooName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;  tail:&#34;</span><span class="p">,</span> <span class="nx">fooCmd</span><span class="p">.</span><span class="nf">Args</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="s">&#34;bar&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">barCmd</span><span class="p">.</span><span class="nf">Parse</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;subcommand &#39;bar&#39;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;  level:&#34;</span><span class="p">,</span> <span class="o">*</span><span class="nx">barLevel</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;  tail:&#34;</span><span class="p">,</span> <span class="nx">barCmd</span><span class="p">.</span><span class="nf">Args</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="k">default</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;expected &#39;foo&#39; or &#39;bar&#39; subcommands&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> go build sottocomandi-linea-comando.go </span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Prima invoca il sottocomando foo.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> ./sottocomandi-linea-comando foo -enable -name=joe a1 a2
+</span></span><span class="line"><span class="cl"><span class="go">subcommand &#39;foo&#39;
+</span></span></span><span class="line"><span class="cl"><span class="go">  enable: true
+</span></span></span><span class="line"><span class="cl"><span class="go">  name: joe
+</span></span></span><span class="line"><span class="cl"><span class="go">  tail: [a1 a2]</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ora prova bar.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> ./sottocomandi-linea-comando bar -level 8 a1
+</span></span><span class="line"><span class="cl"><span class="go">subcommand &#39;bar&#39;
+</span></span></span><span class="line"><span class="cl"><span class="go">  level: 8
+</span></span></span><span class="line"><span class="cl"><span class="go">  tail: [a1]</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Ma bar non accetterà i flag di foo.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <pre class="chroma"><code><span class="line"><span class="cl"><span class="gp">$</span> ./sottocomandi-linea-comando bar -enable a1
+</span></span><span class="line"><span class="cl"><span class="go">flag provided but not defined: -enable
+</span></span></span><span class="line"><span class="cl"><span class="go">Usage of bar:
+</span></span></span><span class="line"><span class="cl"><span class="go">  -level int
+</span></span></span><span class="line"><span class="cl"><span class="go">        level</span></span></span></code></pre>
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Successivamente vedremo le variabili d&rsquo;ambiente, un altro
+modo comune per parametrizzare i programmi.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Prossimo esempio: <a href="variabili-ambiente" rel="next">Variabili Ambiente</a>.
+      </p>
+      
+
+    <p class="footer">
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+    </p>
+
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"flag\"\u000A    \"fmt\"\u000A    \"os\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    fooCmd :\u003D flag.NewFlagSet(\"foo\", flag.ExitOnError)\u000A    fooEnable :\u003D fooCmd.Bool(\"enable\", false, \"enable\")\u000A    fooName :\u003D fooCmd.String(\"name\", \"\", \"name\")\u000A');codeLines.push('    barCmd :\u003D flag.NewFlagSet(\"bar\", flag.ExitOnError)\u000A    barLevel :\u003D barCmd.Int(\"level\", 0, \"level\")\u000A');codeLines.push('    if len(os.Args) \u003C 2 {\u000A        fmt.Println(\"expected \'foo\' or \'bar\' subcommands\")\u000A        os.Exit(1)\u000A    }\u000A');codeLines.push('    switch os.Args[1] {\u000A');codeLines.push('    case \"foo\":\u000A        fooCmd.Parse(os.Args[2:])\u000A        fmt.Println(\"subcommand \'foo\'\")\u000A        fmt.Println(\"  enable:\", *fooEnable)\u000A        fmt.Println(\"  name:\", *fooName)\u000A        fmt.Println(\"  tail:\", fooCmd.Args())\u000A    case \"bar\":\u000A        barCmd.Parse(os.Args[2:])\u000A        fmt.Println(\"subcommand \'bar\'\")\u000A        fmt.Println(\"  level:\", *barLevel)\u000A        fmt.Println(\"  tail:\", barCmd.Args())\u000A    default:\u000A        fmt.Println(\"expected \'foo\' or \'bar\' subcommands\")\u000A        os.Exit(1)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

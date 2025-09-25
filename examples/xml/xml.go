@@ -1,5 +1,5 @@
-// Go offers built-in support for XML and XML-like
-// formats with the `encoding/xml` package.
+// Go offre supporto integrato per XML e formati
+// simili a XML con il pacchetto `encoding/xml`.
 
 package main
 
@@ -8,13 +8,13 @@ import (
 	"fmt"
 )
 
-// Plant will be mapped to XML. Similarly to the
-// JSON examples, field tags contain directives for the
-// encoder and decoder. Here we use some special features
-// of the XML package: the `XMLName` field name dictates
-// the name of the XML element representing this struct;
-// `id,attr` means that the `Id` field is an XML
-// _attribute_ rather than a nested element.
+// Plant sarà mappato a XML. Similmente agli
+// esempi JSON, i tag dei campi contengono direttive per
+// encoder e decoder. Qui usiamo alcune funzionalità speciali
+// del pacchetto XML: il nome del campo `XMLName` detta
+// il nome dell'elemento XML che rappresenta questo struct;
+// `id,attr` significa che il campo `Id` è un
+// _attributo_ XML piuttosto che un elemento annidato.
 type Plant struct {
 	XMLName xml.Name `xml:"plant"`
 	Id      int      `xml:"id,attr"`
@@ -31,20 +31,20 @@ func main() {
 	coffee := &Plant{Id: 27, Name: "Coffee"}
 	coffee.Origin = []string{"Ethiopia", "Brazil"}
 
-	// Emit XML representing our plant; using
-	// `MarshalIndent` to produce a more
-	// human-readable output.
+	// Emette XML che rappresenta la nostra pianta; usando
+	// `MarshalIndent` per produrre un output
+	// più leggibile dall'uomo.
 	out, _ := xml.MarshalIndent(coffee, " ", "  ")
 	fmt.Println(string(out))
 
-	// To add a generic XML header to the output, append
-	// it explicitly.
+	// Per aggiungere un header XML generico all'output, aggiungilo
+	// esplicitamente.
 	fmt.Println(xml.Header + string(out))
 
-	// Use `Unmarshal` to parse a stream of bytes with XML
-	// into a data structure. If the XML is malformed or
-	// cannot be mapped onto Plant, a descriptive error
-	// will be returned.
+	// Usa `Unmarshal` per parsare un flusso di byte con XML
+	// in una struttura dati. Se l'XML è malformato o
+	// non può essere mappato su Plant, sarà restituito
+	// un errore descrittivo.
 	var p Plant
 	if err := xml.Unmarshal(out, &p); err != nil {
 		panic(err)
@@ -54,8 +54,8 @@ func main() {
 	tomato := &Plant{Id: 81, Name: "Tomato"}
 	tomato.Origin = []string{"Mexico", "California"}
 
-	// The `parent>child>plant` field tag tells the encoder
-	// to nest all `plant`s under `<parent><child>...`
+	// Il tag del campo `parent>child>plant` dice all'encoder
+	// di annidare tutti i `plant` sotto `<parent><child>...`
 	type Nesting struct {
 		XMLName xml.Name `xml:"nesting"`
 		Plants  []*Plant `xml:"parent>child>plant"`

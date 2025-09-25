@@ -12,28 +12,28 @@
           }
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'variadic-functions';
+              window.location.href = 'funzioni-variadiche';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'recursion';
+              window.location.href = 'ricorsione';
           }
           
       }
   </script>
   <body>
     <div class="example" id="closures">
-      <h2><a href="./">Go by Example</a>: Closures</h2>
+      <h2><a href="./">Go by Example</a>: Closures <button id="theme-toggle" title="Cambia tema"><span id="theme-icon">🌙</span></button></h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>Go supports <a href="https://en.wikipedia.org/wiki/Anonymous_function"><em>anonymous functions</em></a>,
-which can form <a href="https://en.wikipedia.org/wiki/Closure_(computer_science)"><em>closures</em></a>.
-Anonymous functions are useful when you want to define
-a function inline without having to name it.</p>
+            <p>Go supporta le <a href="https://en.wikipedia.org/wiki/Anonymous_function"><em>funzioni anonime</em></a>,
+che possono formare <a href="https://en.wikipedia.org/wiki/Closure_(computer_science)"><em>closure</em></a>.
+Le funzioni anonime sono utili quando vuoi definire
+una funzione inline senza doverla nominare.</p>
 
           </td>
           <td class="code empty leading">
@@ -47,7 +47,7 @@ a function inline without having to name it.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/NpgpzS8ZG8y"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/J16DJZlBXkR"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -64,10 +64,10 @@ a function inline without having to name it.</p>
         
         <tr>
           <td class="docs">
-            <p>This function <code>intSeq</code> returns another function, which
-we define anonymously in the body of <code>intSeq</code>. The
-returned function <em>closes over</em> the variable <code>i</code> to
-form a closure.</p>
+            <p>Questa funzione <code>intSeq</code> restituisce un&rsquo;altra funzione, che
+definiamo anonimamente nel corpo di <code>intSeq</code>. La
+funzione restituita <em>cattura</em> la variabile <code>i</code> per
+formare una closure.</p>
 
           </td>
           <td class="code leading">
@@ -94,10 +94,10 @@ form a closure.</p>
         
         <tr>
           <td class="docs">
-            <p>We call <code>intSeq</code>, assigning the result (a function)
-to <code>nextInt</code>. This function value captures its
-own <code>i</code> value, which will be updated each time
-we call <code>nextInt</code>.</p>
+            <p>Chiamiamo <code>intSeq</code>, assegnando il risultato (una funzione)
+a <code>nextInt</code>. Questo valore di funzione cattura il suo
+proprio valore <code>i</code>, che sarà aggiornato ogni volta
+che chiamiamo <code>nextInt</code>.</p>
 
           </td>
           <td class="code leading">
@@ -108,8 +108,8 @@ we call <code>nextInt</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>See the effect of the closure by calling <code>nextInt</code>
-a few times.</p>
+            <p>Vedi l&rsquo;effetto della closure chiamando <code>nextInt</code>
+alcune volte.</p>
 
           </td>
           <td class="code leading">
@@ -122,8 +122,8 @@ a few times.</p>
         
         <tr>
           <td class="docs">
-            <p>To confirm that the state is unique to that
-particular function, create and test a new one.</p>
+            <p>Per confermare che lo stato è unico per quella
+particolare funzione, creiamo e testiamo una nuova.</p>
 
           </td>
           <td class="code">
@@ -154,8 +154,8 @@ particular function, create and test a new one.</p>
         
         <tr>
           <td class="docs">
-            <p>The last feature of functions we&rsquo;ll look at for now is
-recursion.</p>
+            <p>L&rsquo;ultima caratteristica delle funzioni che vedremo per ora è
+la ricorsione.</p>
 
           </td>
           <td class="code empty">
@@ -168,12 +168,13 @@ recursion.</p>
       
       
       <p class="next">
-        Next example: <a href="recursion" rel="next">Recursion</a>.
+        Prossimo esempio: <a href="ricorsione" rel="next">Ricorsione</a>.
       </p>
       
 
     <p class="footer">
-      by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> and <a href="https://eli.thegreenplace.net">Eli Bendersky</a> | <a href="https://github.com/mmcgrana/gobyexample">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+      di <a href="https://markmcgranaghan.com">Mark McGranaghan</a> e <a href="https://eli.thegreenplace.net">Eli Bendersky</a><br>
+      traduzione di <a href="https://andrearaponi.it">Andrea Raponi</a> | <a href="https://github.com/andrearaponi/gobyexample-it">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
     </p>
 
     </div>

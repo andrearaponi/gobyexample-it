@@ -138,6 +138,54 @@ img.copy {
   margin-right: 4px;
 }
 
+/* Theme toggle button */
+#theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 10px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Copy feedback popup - Light mode */
+.copy-popup {
+  position: absolute;
+  background: #333333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.copy-popup.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.copy-popup::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: #333333;
+}
+
 
 /* Colors: light mode */
 body {
@@ -183,48 +231,92 @@ body .go { color: #808080 }  /* Generic.Output: shell output */
 body .c1 { color: #808080 }  /* Comment.Single */
 
 
+/* Dark mode - controlled by .dark class */
+body.dark {
+  background-color: #1f1f1f;
+  color: #dadada;
+}
+
+body.dark td.code.empty {
+  background: #1f1f1f;
+}
+
+body.dark a, body.dark a:visited {
+  color: #e4e4e4;
+}
+
+body.dark p.footer {
+  color: #898e98;
+}
+
+body.dark p.footer a, body.dark p.footer a:visited {
+  color: #898e98;
+}
+
+body.dark td.code {
+  background: #282828;
+}
+
+body.dark #theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Syntax highlighting: dark mode */
+body.dark .nx { }                 /* Name.Other */
+body.dark .nf { }                 /* Name.Function */
+body.dark .o  { }                 /* Operator */
+body.dark .p  { }                 /* Plain */
+body.dark .k  { color: #af5a54 }  /* Keyword */
+body.dark .kc { color: #af5a54 }  /* Keyword.Constant */
+body.dark .kd { color: #af5a54 }  /* Keyword.Declaration */
+body.dark .kn { color: #af5a54 }  /* Keyword.Namespace */
+body.dark .nb { color: #af5a54 }  /* Name.Builtin */
+body.dark .kt { color: #b64343 }  /* Keyword.Type */
+body.dark .m  { color: #688ec8 }  /* Literal.Number */
+body.dark .mf { color: #688ec8 }  /* Literal.Number.Float */
+body.dark .mh { color: #688ec8 }  /* Literal.Number.Hex */
+body.dark .mi { color: #688ec8 }  /* Literal.Number.Integer */
+body.dark .mo { color: #688ec8 }  /* Literal.Number.Oct */
+body.dark .s  { color: #718e72 }  /* Literal.String */
+body.dark .sc { color: #718e72 }  /* Literal.String.Char */
+body.dark .gp { color: #8a6ab1 }  /* Generic.Prompt */
+body.dark .go { color: #868686 }  /* Generic.Output */
+body.dark .c1 { color: #868686 }  /* Comment.Single */
+
+/* Copy feedback popup - Dark mode */
+body.dark .copy-popup {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+
+body.dark .copy-popup::after {
+  border-top-color: #22c55e;
+}
+
+/* Auto dark mode fallback */
 @media (prefers-color-scheme: dark) {
-  /* Colors: dark mode */
-  body {
+  body:not(.light) {
     background-color: #1f1f1f;
     color: #dadada;
   }
-  td.code.empty {
+
+  body:not(.light) td.code.empty {
     background: #1f1f1f;
   }
-  a, a:visited {
+
+  body:not(.light) a, body:not(.light) a:visited {
     color: #e4e4e4;
   }
-  p.footer {
+
+  body:not(.light) p.footer {
     color: #898e98;
-  }
-  p.footer a, p.footer a:visited {
-    color: #898e98;
-  }
-  td.code {
-    background: #282828;
   }
 
- 
-  /* Syntax highlighting: dark mode */
-  body .nx { }                 /* Name.Other */
-  body .nf { }                 /* Name.Function */
-  body .o  { }                 /* Operator */
-  body .p  { }                 /* Plain */
-  body .k  { color: #af5a54 }  /* Keyword */
-  body .kc { color: #af5a54 }  /* Keyword.Constant */
-  body .kd { color: #af5a54 }  /* Keyword.Declaration */
-  body .kn { color: #af5a54 }  /* Keyword.Namespace */
-  body .nb { color: #af5a54 }  /* Name.Builtin */
-  body .kt { color: #b64343 }  /* Keyword.Type */
-  body .m  { color: #688ec8 }  /* Literal.Number */
-  body .mf { color: #688ec8 }  /* Literal.Number.Float */
-  body .mh { color: #688ec8 }  /* Literal.Number.Hex */
-  body .mi { color: #688ec8 }  /* Literal.Number.Integer */
-  body .mo { color: #688ec8 }  /* Literal.Number.Oct */
-  body .s  { color: #718e72 }  /* Literal.String */
-  body .sc { color: #718e72 }  /* Literal.String.Char */
-  body .gp { color: #8a6ab1 }  /* Generic.Prompt */
-  body .go { color: #868686 }  /* Generic.Output */
-  body .c1 { color: #868686 }  /* Comment.Single */
+  body:not(.light) p.footer a, body:not(.light) p.footer a:visited {
+    color: #898e98;
+  }
+
+  body:not(.light) td.code {
+    background: #282828;
+  }
 }
