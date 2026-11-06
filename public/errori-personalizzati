@@ -30,7 +30,7 @@
         
         <tr>
           <td class="docs">
-            <p>È possibile utilizzare tipi personalizzati come <code>error</code>
+            <p>È possibile definire tipi di errore personalizzati
 implementando il metodo <code>Error()</code> su di essi. Ecco una
 variante dell&rsquo;esempio precedente che usa un tipo personalizzato
 per rappresentare esplicitamente un errore di argomento.</p>
@@ -47,7 +47,7 @@ per rappresentare esplicitamente un errore di argomento.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/lo3zBMEYb36"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/tPmx0Xb3yir"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -130,18 +130,17 @@ implementi l&rsquo;interfaccia <code>error</code>.</p>
         
         <tr>
           <td class="docs">
-            <p><code>errors.As</code> è una versione più avanzata di <code>errors.Is</code>.
+            <p><code>errors.AsType</code> è una versione più avanzata di <code>errors.Is</code>.
 Controlla che un dato errore (o qualsiasi errore nella sua catena)
 corrisponda a un tipo di errore specifico e lo converte in un valore
-di quel tipo, restituendo <code>true</code>. Se non c&rsquo;è corrispondenza,
-restituisce <code>false</code>.</p>
+di quel tipo, restituendo anche <code>true</code>. Se non c&rsquo;è corrispondenza,
+il secondo valore di ritorno è <code>false</code>.</p>
 
           </td>
           <td class="code">
             
           <pre class="chroma"><code><span class="line"><span class="cl">    <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">f</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">ae</span> <span class="o">*</span><span class="nx">argError</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">As</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">ae</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">ae</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">AsType</span><span class="p">[</span><span class="o">*</span><span class="nx">argError</span><span class="p">](</span><span class="nx">err</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ae</span><span class="p">.</span><span class="nx">arg</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">ae</span><span class="p">.</span><span class="nx">message</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -183,7 +182,7 @@ restituisce <code>false</code>.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"errors\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('type argError struct {\u000A    arg     int\u000A    message string\u000A}\u000A');codeLines.push('func (e *argError) Error() string {\u000A    return fmt.Sprintf(\"%d - %s\", e.arg, e.message)\u000A}\u000A');codeLines.push('func f(arg int) (int, error) {\u000A    if arg \u003D\u003D 42 {\u000A');codeLines.push('        return -1, \u0026argError{arg, \"can\'t work with it\"}\u000A    }\u000A    return arg + 3, nil\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    _, err :\u003D f(42)\u000A    var ae *argError\u000A    if errors.As(err, \u0026ae) {\u000A        fmt.Println(ae.arg)\u000A        fmt.Println(ae.message)\u000A    } else {\u000A        fmt.Println(\"err doesn\'t match argError\")\u000A    }\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"errors\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('type argError struct {\u000A    arg     int\u000A    message string\u000A}\u000A');codeLines.push('func (e *argError) Error() string {\u000A    return fmt.Sprintf(\"%d - %s\", e.arg, e.message)\u000A}\u000A');codeLines.push('func f(arg int) (int, error) {\u000A    if arg \u003D\u003D 42 {\u000A');codeLines.push('        return -1, \u0026argError{arg, \"can\'t work with it\"}\u000A    }\u000A    return arg + 3, nil\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    _, err :\u003D f(42)\u000A    if ae, ok :\u003D errors.AsType[*argError](err); ok {\u000A        fmt.Println(ae.arg)\u000A        fmt.Println(ae.message)\u000A    } else {\u000A        fmt.Println(\"err doesn\'t match argError\")\u000A    }\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

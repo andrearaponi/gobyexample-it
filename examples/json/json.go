@@ -5,9 +5,9 @@
 package main
 
 import (
-	"encoding/json"
+	"bytes"
+	"encoding/json/v2"
 	"fmt"
-	"os"
 	"strings"
 )
 
@@ -79,12 +79,15 @@ func main() {
 
 	// Dobbiamo fornire una variabile dove il pacchetto JSON
 	// può mettere i dati decodificati. Questa
-	// `map[string]interface{}` conterrà una mappa di stringhe
+	// `map[string]any` conterrà una mappa di stringhe
 	// a tipi di dati arbitrari.
-	var dat map[string]interface{}
+	var dat map[string]any
 
 	// Ecco la decodifica vera e propria, e un controllo per
 	// errori associati.
+	// Per brevità ignoriamo gli errori in
+	// questi esempi; nel codice reale dovresti sempre controllare
+	// gli errori e gestirli di conseguenza.
 	if err := json.Unmarshal(byt, &dat); err != nil {
 		panic(err)
 	}
@@ -99,7 +102,7 @@ func main() {
 
 	// Accedere a dati annidati richiede una serie di
 	// conversioni.
-	strs := dat["strs"].([]interface{})
+	strs := dat["strs"].([]any)
 	str1 := strs[0].(string)
 	fmt.Println(str1)
 
@@ -110,23 +113,23 @@ func main() {
 	// decodificati.
 	str := `{"page": 1, "fruits": ["apple", "peach"]}`
 	res := response2{}
-	json.Unmarshal([]byte(str), &res)
+	_ = json.Unmarshal([]byte(str), &res)
 	fmt.Println(res)
 	fmt.Println(res.Fruits[0])
 
 	// Negli esempi sopra abbiamo sempre usato byte e
 	// stringhe come intermediari tra i dati e la
 	// rappresentazione JSON su standard out. Possiamo anche
-	// fare stream di codifiche JSON direttamente a `os.Writer` come
+	// fare stream di codifiche JSON direttamente a `io.Writer` come
 	// `os.Stdout` o anche body di risposte HTTP.
-	enc := json.NewEncoder(os.Stdout)
 	d := map[string]int{"apple": 5, "lettuce": 7}
-	enc.Encode(d)
+	var buf bytes.Buffer
+	_ = json.MarshalWrite(&buf, d)
+	fmt.Println(buf.String())
 
-	// Le letture in streaming da `os.Reader` come `os.Stdin`
-	// o body di richieste HTTP si fanno con `json.Decoder`.
-	dec := json.NewDecoder(strings.NewReader(str))
+	// Le letture in streaming da `io.Reader` come `os.Stdin`
+	// o body di richieste HTTP si fanno con `json.UnmarshalRead`.
 	res1 := response2{}
-	dec.Decode(&res1)
+	_ = json.UnmarshalRead(strings.NewReader(str), &res1)
 	fmt.Println(res1)
 }

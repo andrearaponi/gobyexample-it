@@ -47,7 +47,7 @@ func main() {
 	// usarlo per scoprire il tipo di un valore di
 	// interfaccia. In questo esempio, la variabile `t` avrà il
 	// tipo corrispondente alla sua clausola.
-	whatAmI := func(i interface{}) {
+	whatAmI := func(i any) {
 		switch t := i.(type) {
 		case bool:
 			fmt.Println("I'm a bool")

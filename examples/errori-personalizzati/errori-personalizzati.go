@@ -1,4 +1,4 @@
-// È possibile utilizzare tipi personalizzati come `error`
+// È possibile definire tipi di errore personalizzati
 // implementando il metodo `Error()` su di essi. Ecco una
 // variante dell'esempio precedente che usa un tipo personalizzato
 // per rappresentare esplicitamente un errore di argomento.
@@ -33,14 +33,13 @@ func f(arg int) (int, error) {
 
 func main() {
 
-	// `errors.As` è una versione più avanzata di `errors.Is`.
+	// `errors.AsType` è una versione più avanzata di `errors.Is`.
 	// Controlla che un dato errore (o qualsiasi errore nella sua catena)
 	// corrisponda a un tipo di errore specifico e lo converte in un valore
-	// di quel tipo, restituendo `true`. Se non c'è corrispondenza,
-	// restituisce `false`.
+	// di quel tipo, restituendo anche `true`. Se non c'è corrispondenza,
+	// il secondo valore di ritorno è `false`.
 	_, err := f(42)
-	var ae *argError
-	if errors.As(err, &ae) {
+	if ae, ok := errors.AsType[*argError](err); ok {
 		fmt.Println(ae.arg)
 		fmt.Println(ae.message)
 	} else {

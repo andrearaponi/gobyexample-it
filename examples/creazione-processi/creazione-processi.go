@@ -1,9 +1,10 @@
 // A volte i nostri programmi Go devono creare altri
-// processi non-Go.
+// processi.
 
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"os/exec"
@@ -35,12 +36,12 @@ func main() {
 	// di ritorno diverso da zero.
 	_, err = exec.Command("date", "-x").Output()
 	if err != nil {
-		switch e := err.(type) {
-		case *exec.Error:
-			fmt.Println("failed executing:", err)
-		case *exec.ExitError:
-			fmt.Println("command exit rc =", e.ExitCode())
-		default:
+		if e, ok := errors.AsType[*exec.Error](err); ok {
+			fmt.Println("failed executing:", e)
+		} else if e, ok := errors.AsType[*exec.ExitError](err); ok {
+			exitCode := e.ExitCode()
+			fmt.Println("command exit rc =", exitCode)
+		} else {
 			panic(err)
 		}
 	}

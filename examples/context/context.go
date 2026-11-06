@@ -1,4 +1,4 @@
-// Nell'esempio precedente abbiamo visto come configurare un semplice
+// In un esempio precedente abbiamo visto come configurare un semplice
 // [server HTTP](server-http). I server HTTP sono utili per
 // dimostrare l'uso di `context.Context` per
 // controllare la cancellazione. Un `Context` trasporta scadenze,

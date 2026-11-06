@@ -5,7 +5,10 @@
 
 package main
 
-import "os"
+import (
+	"os"
+	"path/filepath"
+)
 
 func main() {
 
@@ -18,7 +21,8 @@ func main() {
 	// restituisce un valore di errore che non sappiamo come
 	// (o vogliamo) gestire. Ecco un esempio di
 	// `panic` se otteniamo un errore inaspettato durante la creazione di un nuovo file.
-	_, err := os.Create("/tmp/file")
+	path := filepath.Join(os.TempDir(), "file")
+	_, err := os.Create(path)
 	if err != nil {
 		panic(err)
 	}

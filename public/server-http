@@ -17,7 +17,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'context';
+              window.location.href = 'server-tcp';
           }
           
       }
@@ -182,7 +182,7 @@ di default che abbiamo appena configurato.</p>
       
       
       <p class="next">
-        Prossimo esempio: <a href="context" rel="next">Context</a>.
+        Prossimo esempio: <a href="server-tcp" rel="next">Server TCP</a>.
       </p>
       
 

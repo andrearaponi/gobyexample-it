@@ -5,6 +5,6 @@ $ go run struct.go
 &{Ann 40}
 &{Jon 42}
 Sean
-50
-51
+{Sean 51}
+52
 {Rex true}

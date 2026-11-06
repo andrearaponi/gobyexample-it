@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 )
 
 // Leggere file richiede di controllare la maggior parte delle chiamate per errori.
@@ -23,14 +24,15 @@ func main() {
 
 	// Forse il compito più basilare di lettura file è
 	// inghiottire l'intero contenuto di un file in memoria.
-	dat, err := os.ReadFile("/tmp/dat")
+	path := filepath.Join(os.TempDir(), "dat")
+	dat, err := os.ReadFile(path)
 	check(err)
 	fmt.Print(string(dat))
 
 	// Spesso vorrai più controllo su come e quali
 	// parti di un file vengono lette. Per questi compiti, inizia
 	// aprendo (`Open`) un file per ottenere un valore `os.File`.
-	f, err := os.Open("/tmp/dat")
+	f, err := os.Open(path)
 	check(err)
 
 	// Leggi alcuni byte dall'inizio del file.

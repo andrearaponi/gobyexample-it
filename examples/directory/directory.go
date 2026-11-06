@@ -82,6 +82,7 @@ func main() {
 	// directory visitata.
 	fmt.Println("Visiting subdir")
 	err = filepath.WalkDir("subdir", visit)
+	check(err)
 }
 
 // `visit` viene chiamata per ogni file o directory trovata

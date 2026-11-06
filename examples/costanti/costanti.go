@@ -14,8 +14,8 @@ const s string = "constant"
 func main() {
 	fmt.Println(s)
 
-	// Un'istruzione `const` può apparire ovunque possa
-	// apparire un'istruzione `var`.
+	// Un'istruzione `const` può comparire anche all'interno
+	// del corpo di una funzione.
 	const n = 500000000
 
 	// Le espressioni costanti eseguono l'aritmetica con

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"iter"
 	"slices"
+	"strings"
 )
 
 // Diamo un'occhiata di nuovo al tipo `List` dall'
@@ -57,7 +58,7 @@ func (lst *List[T]) All() iter.Seq[T] {
 // a funzionare finché `yield` continua a restituire `true`.
 func genFib() iter.Seq[int] {
 	return func(yield func(int) bool) {
-		a, b := 1, 1
+		a, b := 0, 1
 
 		for {
 			if !yield(a) {
@@ -86,6 +87,14 @@ func main() {
 	// tutti i suoi valori in una slice.
 	all := slices.Collect(lst.All())
 	fmt.Println("all:", all)
+
+	// Anche i pacchetti della libreria standard ora espongono
+	// helper per gli iteratori. Per esempio, `strings.SplitSeq`
+	// itera sulle parti di una stringa senza prima costruire
+	// una slice con i risultati.
+	for part := range strings.SplitSeq("go-by-example", "-") {
+		fmt.Printf("part: %s\n", part)
+	}
 
 	for n := range genFib() {
 

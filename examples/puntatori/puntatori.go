@@ -39,4 +39,11 @@ func main() {
 
 	// Anche i puntatori possono essere stampati.
 	fmt.Println("pointer:", &i)
+
+	// Un nuovo puntatore a un valore può essere creato con la
+	// funzione built-in `new`.
+	p := new(42)
+	fmt.Println("value at *p:", *p)
+	zeroptr(p)
+	fmt.Println("value at *p:", *p)
 }

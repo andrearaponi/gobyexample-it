@@ -147,9 +147,10 @@ worker sul canale.</p>
         
         <tr>
           <td class="docs">
-            <p>Se rimuovessi la riga <code>&lt;- done</code> da questo programma, il
-programma uscirebbe prima che il <code>worker</code> sia persino
-iniziato.</p>
+            <p>Se rimuovessi la riga <code>&lt;- done</code> da questo programma,
+il programma potrebbe uscire prima che il <code>worker</code> abbia
+finito il suo lavoro, o in alcuni casi persino prima
+che sia iniziato.</p>
 
           </td>
           <td class="code empty">

@@ -1,8 +1,8 @@
 // In Go è idiomatico comunicare gli errori tramite un
 // valore di ritorno esplicito e separato. Questo si contrappone
-// alle eccezioni usate in linguaggi come Java e Ruby e al
-// singolo valore di ritorno che, in C, talvolta funge sia da
-// risultato che da errore. L'approccio di Go rende immediato
+// alle eccezioni usate in linguaggi come Java, Python e Ruby
+// e al singolo valore di ritorno che, in C, talvolta funge sia
+// da risultato che da errore. L'approccio di Go rende immediato
 // capire quali funzioni restituiscono errori e gestirli
 // utilizzando gli stessi costrutti del linguaggio impiegati
 // anche per altre operazioni non legate agli errori.
@@ -34,8 +34,8 @@ func f(arg int) (int, error) {
 
 // Un errore sentinella è una variabile predichiarata che è usata per
 // indicare una condizione di errore specifica.
-var ErrOutOfTea = fmt.Errorf("no more tea available")
-var ErrPower = fmt.Errorf("can't boil water")
+var ErrOutOfTea = errors.New("no more tea available")
+var ErrPower = errors.New("can't boil water")
 
 func makeTea(arg int) error {
 	if arg == 2 {
@@ -47,7 +47,7 @@ func makeTea(arg int) error {
 		// verbo `%w` in `fmt.Errorf`. Gli errori avvolti
 		// creano una catena logica (A avvolge B, che avvolge C, ecc.)
 		// che può essere interrogata con funzioni come `errors.Is`
-		// e `errors.As`.
+		// e `errors.AsType`.
 		return fmt.Errorf("making tea: %w", ErrPower)
 	}
 	return nil
@@ -56,7 +56,7 @@ func makeTea(arg int) error {
 func main() {
 	for _, i := range []int{7, 42} {
 
-		// È comune usare un controllo di errore inline nella riga
+		// È idiomatico usare un controllo di errore inline nella riga
 		// `if`.
 		if r, e := f(i); e != nil {
 			fmt.Println("f failed:", e)

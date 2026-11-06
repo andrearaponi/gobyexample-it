@@ -44,13 +44,14 @@ func main() {
 	s := person{name: "Sean", age: 50}
 	fmt.Println(s.name)
 
+	// Le struct sono mutabili.
+	s.age = 51
+	fmt.Println(s)
+
 	// Puoi anche usare i punti con i puntatori struct - i
 	// puntatori vengono dereferenziati automaticamente.
 	sp := &s
-	fmt.Println(sp.age)
-
-	// Le struct sono mutabili.
-	sp.age = 51
+	sp.age = 52
 	fmt.Println(sp.age)
 
 	// Se un tipo struct è usato solo per un singolo valore, non dobbiamo

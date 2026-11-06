@@ -5,7 +5,7 @@
 // dei canali per ottenere lo stesso risultato. Questo approccio basato
 // sui canali si allinea con le idee di Go di condividere la memoria
 // comunicando e avere ogni pezzo di dati posseduto
-// esattamente da 1 goroutine.
+// esattamente da una goroutine.
 
 package main
 

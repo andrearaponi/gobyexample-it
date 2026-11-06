@@ -37,7 +37,7 @@ funzionalità di sincronizzazione integrate delle goroutine e
 dei canali per ottenere lo stesso risultato. Questo approccio basato
 sui canali si allinea con le idee di Go di condividere la memoria
 comunicando e avere ogni pezzo di dati posseduto
-esattamente da 1 goroutine.</p>
+esattamente da una goroutine.</p>
 
           </td>
           <td class="code empty leading">
@@ -51,7 +51,7 @@ esattamente da 1 goroutine.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/Kr9XzG4DgNy"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/OEKoKyv2vVx"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
