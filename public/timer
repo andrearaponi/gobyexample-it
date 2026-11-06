@@ -34,7 +34,7 @@
 futuro, o ripetutamente a un certo intervallo. Le funzionalità
 built-in <em>timer</em> e <em>ticker</em> di Go rendono entrambi questi
 compiti facili. Vedremo prima i timer e poi
-i <a href="tickers">ticker</a>.</p>
+i <a href="ticker">ticker</a>.</p>
 
           </td>
           <td class="code empty leading">
@@ -48,7 +48,7 @@ i <a href="tickers">ticker</a>.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/G1421-s_9cj"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/nSB3aE6uoGA"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>

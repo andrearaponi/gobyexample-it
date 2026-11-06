@@ -31,7 +31,7 @@
         <tr>
           <td class="docs">
             <p>In Go, un <em>array</em> è una sequenza numerata di elementi di una
-lunghezza specifica. Nel codice Go tipico, le <a href="slices">slice</a> sono
+lunghezza specifica. Nel codice Go tipico, le <a href="slice">slice</a> sono
 molto più comuni; gli array sono utili in alcuni scenari
 speciali.</p>
 
@@ -47,7 +47,7 @@ speciali.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/YCbTJPX-m04"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/ZFwjb9wIf3A"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>

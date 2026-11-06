@@ -43,7 +43,7 @@ func main() {
 	// `range` su stringhe itera sui punti di codice Unicode.
 	// Il primo valore è l'indice di byte iniziale
 	// della `rune` e il secondo la `rune` stessa.
-	// Vedi [Strings and Runes](strings-and-runes) per maggiori
+	// Vedi [Stringhe e Rune](stringhe-e-rune) per maggiori
 	// dettagli.
 	for i, c := range "go" {
 		fmt.Println(i, c)

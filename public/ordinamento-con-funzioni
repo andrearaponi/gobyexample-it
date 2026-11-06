@@ -48,7 +48,7 @@ in Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/phAN_oFtAR5"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/xf0_LAovDUB"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -141,7 +141,7 @@ valori che non sono tipi built-in.</p>
 <p>Nota: se la struct <code>Person</code> è grande,
 potresti voler che lo slice contenga <code>*Person</code> invece
 e adattare la funzione di ordinamento di conseguenza. In caso
-di dubbio, <a href="testing-and-benchmarking">fai benchmark</a>!</p>
+di dubbio, <a href="testing-e-benchmarking">fai benchmark</a>!</p>
 
           </td>
           <td class="code">

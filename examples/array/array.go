@@ -1,5 +1,5 @@
 // In Go, un _array_ è una sequenza numerata di elementi di una
-// lunghezza specifica. Nel codice Go tipico, le [slice](slices) sono
+// lunghezza specifica. Nel codice Go tipico, le [slice](slice) sono
 // molto più comuni; gli array sono utili in alcuni scenari
 // speciali.
 

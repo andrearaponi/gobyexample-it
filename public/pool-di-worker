@@ -45,7 +45,7 @@ un <em>pool di worker</em> usando goroutine e canali.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/cBvGboB_Ye7"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/7A3TeuXqsqG"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -144,7 +144,7 @@ canale per indicare che è tutto il lavoro che abbiamo.</p>
             <p>Infine raccogliamo tutti i risultati del lavoro.
 Questo assicura anche che le goroutine worker abbiano
 terminato. Un modo alternativo per attendere più
-goroutine è utilizzare un <a href="waitgroups">WaitGroup</a>.</p>
+goroutine è utilizzare un <a href="waitgroup">WaitGroup</a>.</p>
 
           </td>
           <td class="code">

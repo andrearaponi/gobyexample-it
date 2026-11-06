@@ -47,7 +47,7 @@ func main() {
 	// Infine raccogliamo tutti i risultati del lavoro.
 	// Questo assicura anche che le goroutine worker abbiano
 	// terminato. Un modo alternativo per attendere più
-	// goroutine è utilizzare un [WaitGroup](waitgroups).
+	// goroutine è utilizzare un [WaitGroup](waitgroup).
 	for a := 1; a <= numJobs; a++ {
 		<-results
 	}

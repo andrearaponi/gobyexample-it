@@ -46,7 +46,7 @@ record.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/cYuI6ZmQ6wz"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/zfKsBWwPDKg"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -211,7 +211,7 @@ puntatori vengono dereferenziati automaticamente.</p>
             <p>Se un tipo struct è usato solo per un singolo valore, non dobbiamo
 dargli un nome. Il valore può avere un tipo
 struct anonimo. Questa tecnica è comunemente usata per
-<a href="testing-and-benchmarking">test table-driven</a>.</p>
+<a href="testing-e-benchmarking">test table-driven</a>.</p>
 
           </td>
           <td class="code">

@@ -159,8 +159,8 @@ struct ricevente.</p>
         
         <tr>
           <td class="docs">
-            <p>Next we&rsquo;ll look at Go&rsquo;s mechanism for grouping and
-naming related sets of methods: interfaces.</p>
+            <p>Successivamente vedremo il meccanismo di Go per raggruppare
+e dare un nome a insiemi di metodi correlati: le interfacce.</p>
 
           </td>
           <td class="code empty">

@@ -1,6 +1,6 @@
-# `zeroval` doesn't change the `i` in `main`, but
-# `zeroptr` does because it has a reference to
-# the memory address for that variable.
+# `zeroval` non modifica la `i` in `main`, mentre
+# `zeroptr` sì, perché ha un riferimento
+# all'indirizzo di memoria di quella variabile.
 $ go run puntatori.go
 initial: 1
 zeroval: 1

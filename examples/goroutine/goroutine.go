@@ -33,7 +33,7 @@ func main() {
 
 	// Le nostre due chiamate di funzione ora stanno eseguendo
 	// asincronamente in goroutine separate. Aspettiamo che finiscano
-	// (per un approccio più robusto, usa un [WaitGroup](waitgroups)).
+	// (per un approccio più robusto, usa un [WaitGroup](waitgroup)).
 	time.Sleep(time.Second)
 	fmt.Println("done")
 }

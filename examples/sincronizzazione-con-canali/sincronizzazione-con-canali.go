@@ -2,7 +2,7 @@
 // tra goroutine. Ecco un esempio di utilizzo di una
 // ricezione bloccante per aspettare che una goroutine finisca.
 // Quando si aspettano più goroutine per finire,
-// potresti preferire usare un [WaitGroup](waitgroups).
+// potresti preferire usare un [WaitGroup](waitgroup).
 
 package main
 

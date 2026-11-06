@@ -165,9 +165,9 @@ funzione built-in <code>new</code>.</p>
         
         <tr>
           <td class="docs">
-            <p><code>zeroval</code> doesn&rsquo;t change the <code>i</code> in <code>main</code>, but
-<code>zeroptr</code> does because it has a reference to
-the memory address for that variable.</p>
+            <p><code>zeroval</code> non modifica la <code>i</code> in <code>main</code>, mentre
+<code>zeroptr</code> sì, perché ha un riferimento
+all&rsquo;indirizzo di memoria di quella variabile.</p>
 
           </td>
           <td class="code">

@@ -44,7 +44,7 @@
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/x6DdG56IKhM"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/18eKvj8ldrS"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -130,7 +130,7 @@ di funzione anonima.</p>
           <td class="docs">
             <p>Le nostre due chiamate di funzione ora stanno eseguendo
 asincronamente in goroutine separate. Aspettiamo che finiscano
-(per un approccio più robusto, usa un <a href="waitgroups">WaitGroup</a>).</p>
+(per un approccio più robusto, usa un <a href="waitgroup">WaitGroup</a>).</p>
 
           </td>
           <td class="code">

@@ -34,7 +34,7 @@
 tra goroutine. Ecco un esempio di utilizzo di una
 ricezione bloccante per aspettare che una goroutine finisca.
 Quando si aspettano più goroutine per finire,
-potresti preferire usare un <a href="waitgroups">WaitGroup</a>.</p>
+potresti preferire usare un <a href="waitgroup">WaitGroup</a>.</p>
 
           </td>
           <td class="code empty leading">
@@ -48,7 +48,7 @@ potresti preferire usare un <a href="waitgroups">WaitGroup</a>.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/MPdMbdj3rwY"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/yqox4dvag5d"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>

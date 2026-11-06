@@ -47,7 +47,7 @@ che abbiamo già imparato.</p>
             
           </td>
           <td class="code leading">
-            <a href="https://go.dev/play/p/98xAYa8HbJm"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
+            <a href="https://go.dev/play/p/-y4KbkW1xbh"><img title="Esegui codice" src="play.png" class="run" /></a><img title="Copia codice" src="clipboard.png" class="copy" />
           <pre class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span></span></span></code></pre>
           </td>
         </tr>
@@ -140,7 +140,7 @@ effettivamente gli indici.</p>
             <p><code>range</code> su stringhe itera sui punti di codice Unicode.
 Il primo valore è l&rsquo;indice di byte iniziale
 della <code>rune</code> e il secondo la <code>rune</code> stessa.
-Vedi <a href="strings-and-runes">Strings and Runes</a> per maggiori
+Vedi <a href="stringhe-e-rune">Stringhe e Rune</a> per maggiori
 dettagli.</p>
 
           </td>

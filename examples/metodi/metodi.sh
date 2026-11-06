@@ -4,5 +4,5 @@ perim: 30
 area:  50
 perim: 30
 
-# Next we'll look at Go's mechanism for grouping and
-# naming related sets of methods: interfaces.
+# Successivamente vedremo il meccanismo di Go per raggruppare
+# e dare un nome a insiemi di metodi correlati: le interfacce.

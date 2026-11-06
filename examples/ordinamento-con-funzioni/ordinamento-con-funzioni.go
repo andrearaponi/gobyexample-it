@@ -44,7 +44,7 @@ func main() {
 	// Nota: se la struct `Person` è grande,
 	// potresti voler che lo slice contenga `*Person` invece
 	// e adattare la funzione di ordinamento di conseguenza. In caso
-	// di dubbio, [fai benchmark](testing-and-benchmarking)!
+	// di dubbio, [fai benchmark](testing-e-benchmarking)!
 	slices.SortFunc(people,
 		func(a, b Person) int {
 			return cmp.Compare(a.age, b.age)

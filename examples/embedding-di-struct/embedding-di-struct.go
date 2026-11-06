@@ -1,6 +1,6 @@
 // Go supporta l'_embedding_ di struct e interfacce
 // per esprimere una _composizione_ di tipi più fluida.
-// Questo non deve essere confuso con [`//go:embed`](embed-directive) che è
+// Questo non deve essere confuso con [`//go:embed`](direttiva-embed) che è
 // una direttiva go introdotta in Go versione 1.16+ per incorporare
 // file e cartelle nel binario dell'applicazione.
 

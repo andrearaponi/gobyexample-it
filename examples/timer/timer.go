@@ -2,7 +2,7 @@
 // futuro, o ripetutamente a un certo intervallo. Le funzionalità
 // built-in _timer_ e _ticker_ di Go rendono entrambi questi
 // compiti facili. Vedremo prima i timer e poi
-// i [ticker](tickers).
+// i [ticker](ticker).
 
 package main
 
